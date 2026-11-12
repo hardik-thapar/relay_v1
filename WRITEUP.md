@@ -77,7 +77,7 @@ In ~20 ms, zero tokens: *"Our daily model budget is used up, so I can't write an
 
 ## Your feedback on Vaani
 
-I have followed Vaani's journey for about a year, since I first reached out to Tushar; his work has inspired me since. With Vaani's launch as a product I enjoyed going through the docs: the number of features is remarkable. Two stood out: interruption handling, which was new to me, and adding ambient background sound. **[YOU: one thing that confused you, and one thing you would change.]**
+I have followed Vaani's journey for about a year, since I first reached out to Tushar; his work has inspired me since. With Vaani's launch as a product I enjoyed going through the docs: the number of features is remarkable. Two stood out: interruption handling, which was new to me, and adding ambient background sound. **[YOU: one thing that confused you.]** One thing I would change: the Quickstart shows only cURL and Python. Official SDKs, or at least samples, in Node/TypeScript, Go and Java would meet backend teams where they already are; I built this assignment in Go and would have had to write the client by hand.
 
 ## How I worked with the assistant
 
