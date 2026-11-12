@@ -31,3 +31,15 @@ Changes to DESIGN.md after 2026-11-12 are recorded here, newest last. Each entry
 **Decision:** Besides `RateLimitError`, `ServerError`, `ClientError` and `TimeoutError` (DESIGN §4), a dropped connection is its own `ConnError`, carrying any partial text.
 **Why:** DESIGN §5 retries dropped connections, and the stand-in drops them on purpose. Folding them into `ServerError` would lose the difference between "provider said no" and "the wire broke", which the results need to tell apart.
 **Cost:** One more case in the retry policy.
+
+## D6 — 2026-11-12 — Probe findings that change the design
+
+**Finding:** TPM refills continuously (≈133 tokens/s) and RPD refills one request per 86.4 s; neither is a fixed window. Groq let 34 of 35 simultaneous calls through a 30 RPM limit. Remaining-tokens headers disagree within a burst. Details: `results/probe/README.md`.
+**Decision:** (a) The limiter models token buckets, replacing DESIGN §5's sliding windows; final shape is decided when the limiter is written. (b) Our limiter is the real guard; provider 429s are a fallback. (c) Header correction trusts the lowest remaining value seen recently, never just the latest.
+**Cost:** The "daily budget exhausted" scenario is not a cliff on the real service: one request trickles back every 86.4 s. The stand-in must model that refill too, or the L3 results will look worse than reality.
+
+## D7 — 2026-11-12 — Empty answers are failures; reasoning needs headroom
+
+**Finding:** With `max_completion_tokens: 16`, every call returned 200 OK with no content: hidden reasoning used the whole budget.
+**Decision:** The draft call gets enough `max_completion_tokens` for reasoning plus answer (set from the eval). An empty draft fails verification like any other bad draft.
+**Cost:** A larger max output, which matters if TPM admission counts it (open question in the probe README).
