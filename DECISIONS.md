@@ -43,3 +43,9 @@ Changes to DESIGN.md after 2026-11-12 are recorded here, newest last. Each entry
 **Finding:** With `max_completion_tokens: 16`, every call returned 200 OK with no content: hidden reasoning used the whole budget.
 **Decision:** The draft call gets enough `max_completion_tokens` for reasoning plus answer (set from the eval). An empty draft fails verification like any other bad draft.
 **Cost:** A larger max output, which matters if TPM admission counts it (open question in the probe README).
+
+## D8 — 2026-11-12 — Parsing: outline-checked headings, parsed text committed
+
+**Decision:** `scripts/parse.py` accepts a numbered line as a heading only if the next line looks like a title *and* the number is a plausible successor of the current section (3.2.2 → 3.2.3, 3.3 or 4). Lines repeated on over a third of pages (running headers) are dropped, as are 1–2 character figure fragments. The parsed JSON in `data/parsed/` is committed; PDFs are not (`scripts/fetch.sh` gets them at pinned versions).
+**Why:** Bare numbers in these PDFs are as often page numbers or table cells as headings; the outline check rejects them without a list of special cases. Committing the parsed text pins exactly what retrieval sees, independent of the reader's `pdftotext` version (pdftotext version 26.11.0).
+**Cost:** Mended end-of-line hyphens also merge genuine hyphenated words split across lines ("end-to-\nend" becomes "end-toend"). Quotes are checked against our own text, so this costs search recall, not correctness. Equations and table layout come out as flattened text.
