@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"relay/internal/corpus"
+	"relay/internal/textnorm"
 )
 
 // Question is one eval item. Unanswerable items have no paper, sections
@@ -94,11 +95,9 @@ func Validate(qs []Question, docs []corpus.Doc) error {
 	return nil
 }
 
-// normalize lowercases and collapses whitespace, the same comparison the
-// grader uses for key phrases.
-func normalize(s string) string {
-	return strings.Join(strings.Fields(strings.ToLower(s)), " ")
-}
+// normalize is the case-blind comparison shared with verify, so a key
+// phrase "Mamba-2" matches an answer that writes "Mamba‑2" (U+2011).
+func normalize(s string) string { return textnorm.Fold(s) }
 
 func docText(d corpus.Doc) string {
 	var b strings.Builder

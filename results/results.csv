@@ -224,3 +224,11 @@ eval-heldout-R1-092608.673-00007,eval-heldout,real,2026-11-12T09:26:08.67304Z,12
 eval-heldout-R1-092621.479-00008,eval-heldout,real,2026-11-12T09:26:21.479907Z,12446,12446,ok,0,1624,36,R1,refused_correctly,q18,11926,489,0,0,0,model found no answer in the chunks,3,0.1464
 eval-heldout-R1-092633.948-00009,eval-heldout,real,2026-11-12T09:26:33.948332Z,25718,25718,ok,0,3167,177,R1,wrong,q19,24479,1220,0,0,0,verified (1 uncited sentences dropped),1,0.3674
 eval-heldout-R1-092659.688-00010,eval-heldout,real,2026-11-12T09:26:59.688932Z,9095,9095,ok,0,1213,47,R1,refused_correctly,q20,8527,560,0,0,0,model found no answer in the chunks,1,0.2170
+daily-exhausted-R1-092939.335-00001,daily-exhausted,stand-in,2026-11-12T09:29:56.97605218Z,18,18,ok,0,0,0,R1,,q10,0,0,0,0,0,top retrieval score 0.102 below threshold 0.130,5,0.1020
+daily-exhausted-R1-092939.335-00002,daily-exhausted,stand-in,2026-11-12T09:29:59.816943826Z,149,149,rate_limited,0,0,0,R1,,q13,0,139,0,0,1,"rate limited (retry after 1m6s): {""error"":{""code"":""rate_limit_exceeded"",""message"":""Rate limit reached for model `openai/gpt-oss-20b` on requests per day (RPD): Limit 1000, Requested 1. Please try again in 1m5.871s."",""type"":""requests""}}
+",1,0.5506
+daily-exhausted-R1-092939.335-00003,daily-exhausted,stand-in,2026-11-12T09:30:22.327160878Z,21,21,rate_limited,0,0,0,R1,,q19,0,0,0,3,0,daily budget exhausted,5,0.3674
+daily-exhausted-R1-092939.335-00004,daily-exhausted,stand-in,2026-11-12T09:30:33.888367101Z,12,12,rate_limited,0,0,0,R1,,q09,0,0,0,3,0,daily budget exhausted,3,0.2895
+daily-exhausted-R1-092939.335-00005,daily-exhausted,stand-in,2026-11-12T09:31:30.62065771Z,547,547,ok,0,1334,46,R1,,q08,0,530,0,0,0,verified (0 uncited sentences dropped),2,0.3684
+daily-exhausted-R1-092939.335-00006,daily-exhausted,stand-in,2026-11-12T09:31:56.212791264Z,7,7,rate_limited,0,0,0,R1,,q11,0,0,0,3,0,daily budget exhausted,1,0.3281
+daily-exhausted-R1-092939.335-00007,daily-exhausted,stand-in,2026-11-12T09:32:24.908264886Z,11,11,rate_limited,0,0,0,R1,,q18,0,0,0,3,0,daily budget exhausted,1,0.1464

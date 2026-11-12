@@ -9,6 +9,7 @@ import (
 	"unicode"
 
 	"relay/internal/corpus"
+	"relay/internal/textnorm"
 )
 
 // RefusalText is the exact sentence the model is told to use when the
@@ -213,20 +214,8 @@ func sentences(text string) []string {
 	return out
 }
 
-// typography maps characters the PDFs and the model write differently.
-// Every Unicode hyphen and dash maps to "-": the model writes U+2011
-// (non-breaking hyphen) in "Mamba‑2" where the paper has "Mamba-2", which
-// once refused three correct held-out answers.
-var typography = strings.NewReplacer(
-	"\u2019", "'", "\u2018", "'", "\u201C", `"`, "\u201D", `"`,
-	"\u2010", "-", "\u2011", "-", "\u2012", "-", "\u2013", "-", "\u2014", "-", "\u2212", "-",
-	"\u00A0", " ", "\u202F", " ",
-)
-
-// normalize collapses whitespace and unifies typography.
-func normalize(s string) string {
-	return strings.Join(strings.Fields(typography.Replace(s)), " ")
-}
+// normalize unifies typography and whitespace (shared with grading).
+func normalize(s string) string { return textnorm.Normalize(s) }
 
 // trimEnd drops punctuation a writer puts inside the closing quote mark
 // ("…as follows.") that may not follow the words in the source.

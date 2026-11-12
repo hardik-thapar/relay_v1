@@ -17,3 +17,18 @@ The dev run (`eval-R1/R2/R3-*`) predates the answers log, so its answer texts we
 **Lesson for the final questions:** key phrases must be words any correct answer must use, not the paper's exact term for a concept a correct answer could name differently.
 
 Also seen: the q05 re-ask hit a real Groq 429. Each `cmd/relay` run starts a fresh limiter that knows nothing of the previous processes' tokens that minute; Groq refused, and the retry honoured the 2 s hint and succeeded.
+
+## Held-out run (R1, T = 0.13, after the hyphen fix in verify), 2026-11-12
+
+Answer texts are in `results/answers.jsonl` (`eval-heldout-*`). Script grades: 4 correct, 4 wrong, 2 correctly refused. Every `wrong` row read:
+
+| Question | Script grade | My reading | Why |
+|---|---|---|---|
+| q15 ratio loss | wrong | **partly correct** | Quotes that the loss "guides the model toward the desired compression ratio", cited §2.2.3. Does not name the problem (over/under-compression); key phrase "ratio loss" absent. |
+| q16 encoder/decoder layers | wrong | **disagree: correct** | Quotes "We employ Mamba‑2 layers … as the primary building blocks for the encoder and decoder networks", §2.1.2. The model wrote U+2011 in "Mamba‑2"; **the grader had the same hyphen bug verify had**. Fixed (shared `internal/textnorm`); the row's grade in `results.csv` is left as the old grader wrote it. |
+| q17 main network must be a Transformer? | wrong | **disagree: correct** | Quotes "can employ any sequence mixing architecture" and "allows straightforward substitution with alternative architectures", §2.1.2. Key phrase "any standard architecture" was too narrow. |
+| q19 H-Net latency in spoken dialogue (unanswerable) | wrong | **agree: wrong, and the most instructive row** | Answered "theoretical latency of 160ms", citing the **Moshi** abstract. "Real-time spoken dialogue" is Moshi's vocabulary, so BM25 pulled Moshi chunks; the quote is real, so verify passed it. This is DESIGN §2's known limit (true quote, false claim) and a naive-retriever failure: the question names one paper and the answer comes from another. |
+
+**My reading of held-out:** 6 correct (q11–q14, q16, q17), 1 partly correct (q15), 1 wrong (q19), 2 correctly refused (q18, q20). The script says 4 / 4 / 2. With placeholder questions and 10 items, both are rough.
+
+**Fix this suggests (not built):** check that a cited chunk's paper matches a paper the question names (q19 names H-Net, cites Moshi). Cheap string check; would have refused q19.

@@ -112,10 +112,12 @@ def table_2b(rows):
 
 
 def table_3(rows):
-    out = ["| Setting | Questions asked | Correct and cited % | Wrong % | Correctly refused % | Tokens per answer | First token p50 / p95 (ms) | Total time p50 / p95 (ms) |",
+    out = ["| Run, setting | Questions asked | Correct and cited % | Wrong % | Correctly refused % | Tokens per answer | First token p50 / p95 (ms) | Total time p50 / p95 (ms) |",
            "|---|---|---|---|---|---|---|---|"]
     evals = [r for r in rows if r["answer_grade"]]
-    for setting, rs in by(evals, lambda r: r["retrieval_setting"]).items():
+    # Grouped by run as well as setting: tuning rows (eval-dev) and
+    # reported rows (eval-heldout) must never be averaged together.
+    for (scen, setting), rs in by(evals, lambda r: (r["scenario"], r["retrieval_setting"])).items():
         n = len(rs)
         g = defaultdict(int)
         for r in rs:
@@ -124,7 +126,7 @@ def table_3(rows):
         tokens = NM if not ans else f"{sum(num(r, 'tokens_in') + num(r, 'tokens_out') for r in ans) / len(ans):.0f}"
         first = [num(r, "first_token_ms") for r in rs if num(r, "first_token_ms") is not None]
         total = [num(r, "total_ms") for r in rs]
-        out.append(f"| {setting} | {n} | {share(g['correct'], n)} | {share(g['wrong'], n)} | {share(g['refused_correctly'], n)} | "
+        out.append(f"| {scen}, {setting} | {n} | {share(g['correct'], n)} | {share(g['wrong'], n)} | {share(g['refused_correctly'], n)} | "
                    f"{tokens} | {triple(first, (50, 95))} | {triple(total, (50, 95))} |")
     return out
 

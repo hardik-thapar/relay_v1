@@ -43,7 +43,13 @@ class Tables(unittest.TestCase):
     def test_3_grades(self):
         rows = [row(answer_grade="correct"), row(answer_grade="wrong"),
                 row(answer_grade="refused_correctly", tokens_out="0"), row(answer_grade="refused_wrongly", tokens_out="0")]
-        self.assertIn("| R2 | 4 | 25.0 | 25.0 | 25.0 | 1100 |", table_3(rows)[2])
+        self.assertIn("| s, R2 | 4 | 25.0 | 25.0 | 25.0 | 1100 |", table_3(rows)[2])
+
+    def test_3_never_mixes_dev_and_heldout(self):
+        rows = [row(scenario="eval-dev", answer_grade="correct"), row(scenario="eval-heldout", answer_grade="wrong")]
+        lines = table_3(rows)[2:]
+        self.assertEqual(len(lines), 2)
+        self.assertIn("| eval-dev, R2 | 1 | 100.0 |", lines[0])
 
 class Tune(unittest.TestCase):
     def test_replay_refuses_below_t(self):
