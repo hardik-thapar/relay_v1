@@ -45,17 +45,30 @@ func (b *Bucket) Wait(n float64, now time.Time) time.Duration {
 	if n > b.capacity {
 		return Never
 	}
-	b.refill(now)
-	if b.level >= n {
-		return 0
-	}
-	// Round up: a caller sleeping exactly this long must find the units
-	// there, not wake a hair early to a float rounding error and spin.
-	return time.Duration(math.Ceil((n - b.level) / b.perSec * float64(time.Second)))
+	// Rounded up inside TimeFor: a caller sleeping exactly this long must
+	// find the units there, not wake a hair early to a float error and spin.
+	return b.TimeFor(n, now)
 }
 
 // Never is the wait for a request larger than the whole bucket.
 const Never = time.Duration(math.MaxInt64)
+
+// TimeFor is how long until n units will have flowed in, with no
+// capacity check: the right question for many requests queued together,
+// which together may exceed the bucket but are served over several refills.
+func (b *Bucket) TimeFor(n float64, now time.Time) time.Duration {
+	if b == nil {
+		return 0
+	}
+	b.refill(now)
+	if b.level >= n {
+		return 0
+	}
+	return time.Duration(math.Ceil((n - b.level) / b.perSec * float64(time.Second)))
+}
+
+// Fits reports whether n units could ever be taken at once.
+func (b *Bucket) Fits(n float64) bool { return b == nil || n <= b.capacity }
 
 // Charge removes n units (negative n gives units back, capped at capacity).
 // The level may go below zero: output tokens are only known afterwards.

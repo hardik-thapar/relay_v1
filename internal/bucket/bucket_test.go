@@ -65,8 +65,17 @@ func TestWaitRoundsUp(t *testing.T) {
 
 func TestTooLargeNeverFits(t *testing.T) {
 	b := New(10, time.Second, -1, t0)
-	if b.Wait(11, t0) != Never {
-		t.Error("request larger than capacity must never fit")
+	if b.Wait(11, t0) != Never || b.Fits(11) || !b.Fits(10) {
+		t.Error("one request larger than capacity must never fit")
+	}
+}
+
+func TestTimeForSpansRefills(t *testing.T) {
+	// Several queued requests together may exceed the bucket; they are
+	// served over several refills, not "never".
+	b := New(10, time.Second, -1, t0) // 10 per second
+	if got := b.TimeFor(25, t0); got != 1500*time.Millisecond {
+		t.Errorf("TimeFor(25) = %v, want 1.5s", got)
 	}
 }
 

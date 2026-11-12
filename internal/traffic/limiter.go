@@ -55,16 +55,24 @@ func NewLimiter(l Limits, now func() time.Time) *Limiter {
 	}
 }
 
-// Wait says how long until `requests` calls totalling `tokens` could all
-// start, and which limit is the reason. It reserves nothing; admission
-// uses it to estimate a queue's wait. bucket.Never = can never fit.
+// Wait estimates how long until `requests` calls totalling `tokens` will
+// all have started, and which limit is the reason. It reserves nothing;
+// admission passes in a whole queue, which may exceed a bucket and is
+// then served over several refills.
 func (l *Limiter) Wait(requests, tokens int) (time.Duration, string) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
-	return l.wait(float64(requests), float64(tokens))
+	return l.wait(float64(requests), float64(tokens), (*bucket.Bucket).TimeFor)
 }
 
-func (l *Limiter) wait(requests, tokens float64) (time.Duration, string) {
+// Fits reports whether one call of `tokens` could ever be admitted.
+func (l *Limiter) Fits(tokens int) bool {
+	return l.tpm.Fits(float64(tokens)) && l.tpd.Fits(float64(tokens))
+}
+
+// wait takes the longest wait across all limits. waitFn is TimeFor for a
+// queue estimate, or Wait for one call (which knows "never fits").
+func (l *Limiter) wait(requests, tokens float64, waitFn func(*bucket.Bucket, float64, time.Time) time.Duration) (time.Duration, string) {
 	now := l.now()
 	var longest time.Duration
 	why := ""
@@ -74,10 +82,10 @@ func (l *Limiter) wait(requests, tokens float64) (time.Duration, string) {
 		}
 	}
 	consider(l.pausedUntil.Sub(now), ByPause)
-	consider(l.rpm.Wait(requests, now), ByMinute)
-	consider(l.tpm.Wait(tokens, now), ByMinute)
-	consider(l.rpd.Wait(requests, now), ByDay)
-	consider(l.tpd.Wait(tokens, now), ByDay)
+	consider(waitFn(l.rpm, requests, now), ByMinute)
+	consider(waitFn(l.tpm, tokens, now), ByMinute)
+	consider(waitFn(l.rpd, requests, now), ByDay)
+	consider(waitFn(l.tpd, tokens, now), ByDay)
 	return longest, why
 }
 
@@ -88,7 +96,7 @@ func (l *Limiter) wait(requests, tokens float64) (time.Duration, string) {
 func (l *Limiter) TryReserve(tokens int) (*Reservation, time.Duration, string) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
-	if wait, why := l.wait(1, float64(tokens)); wait > 0 {
+	if wait, why := l.wait(1, float64(tokens), (*bucket.Bucket).Wait); wait > 0 {
 		return nil, wait, why
 	}
 	now := l.now()
