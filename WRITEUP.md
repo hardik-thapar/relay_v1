@@ -1,6 +1,6 @@
 # The Relay — write-up
 
-> **DRAFT.** **[YOU: …]** marks your own words. Graded rows use 20 **placeholder** questions; replace and re-run `eval` first. Numbers: `python3 scripts/tables.py results/results.csv`; reasons and costs: `DECISIONS.md`.
+> Numbers: `python3 scripts/tables.py results/results.csv`. Decisions and costs: `DECISIONS.md`. Eval questions were drafted with the assistant before any retrieval run (`author: placeholder`); graded rows read by hand in `results/eval_review.md`.
 
 ## 1. What I built and why
 
@@ -18,7 +18,7 @@ Go pipeline: **rewrite** (rules) → **retrieve** (own BM25) → **decide** (ref
 | When a limit is hit | 429 in 62–237 ms; `retry-after`; body names limit and wait | captured | High |
 | Time to recover | RPM 2 s; TPM shortfall ÷ 133 tokens/s | poll; arithmetic on 429 | Medium |
 
-From 61 planned calls (`results/probe/`). The **stand-in** speaks Groq's wire format, resamples first-token delay from the probe, adds 24 ms per other request in flight, and refuses with Groq-shaped buckets, headers and 429s. **Least like Groq:** real slowness comes from other tenants, not my load; its limits are exact where Groq leaked; its failures are chosen, while real steady saw 3 in 16.
+From 61 planned calls (`results/probe/`). The **stand-in** speaks Groq's wire format, resamples probe latencies, adds 24 ms per request in flight, and refuses with Groq-shaped buckets and 429s. **Least like Groq:** real slowness comes from other tenants, not my load; its limits are exact where Groq leaked; its failures are chosen.
 
 ## 3. Results
 
@@ -38,11 +38,11 @@ From 61 planned calls (`results/probe/`). The **stand-in** speaks Groq's wire fo
 | Limit halved | 91.7 | 8.3 | 0.0 | 0.00 | 0 | 1424 | $0.117 |
 | Daily budget exhausted | 28.6 | 71.4 | 0.0 | 0.00 | 0 | 1380 | $0.114 |
 
-Cost is $0 on the free tier; shown at $0.075/$0.30 per M tokens in/out. Real steady's other 12.5% are dropped connections; rate-limited includes L2/L3. The stand-in's steady run: p50 448 ms, 100% ok. **Quality** (held-out, 10): 40% correct and cited, 40% wrong, 20% correctly refused, 2,012 tokens/answer; by hand 6 correct, 1 wrong (`results/eval_review.md`). **Unguessable:** 34 of 35 passed a 30 RPM limit; three correct answers were refused over U+2011 in "Mamba‑2".
+Cost: $0 free; shown at $0.075/$0.30 per M tokens. Real steady's other 12.5% are dropped connections; rate-limited includes L2/L3. Stand-in steady: p50 448 ms, 100% ok. **Quality** (held-out, 10): 40% correct and cited, 40% wrong, 20% correctly refused, 2,012 tokens/answer; by hand 6 correct, 1 wrong (`results/eval_review.md`). **Unguessable:** 34 of 35 passed a 30 RPM limit; three correct answers were refused over U+2011 in "Mamba‑2".
 
 ## 4. Where the time goes
 
-Real steady `steady-R1-071824-0005`: 12,274 ms = **11,868 waiting** in our queue for TPM + **400 working** in the model + 6 ours, no retries; all before the first token (per-row `queue_wait_ms`, `model_ms`).
+Real steady `steady-R1-071824-0005`: 12,274 ms = **11,868 waiting** in our queue for TPM + **400 working** in the model + 6 ours, no retries; all before the first token.
 
 ## 5. When a limit is hit
 
@@ -57,7 +57,7 @@ Real steady `steady-R1-071824-0005`: 12,274 ms = **11,868 waiting** in our queue
 | R3: 300 words, 2, no (dev) | 10 | 20.0 | 30.0 | 30.0 | 1785 | 9311 / 24583 | 9311 / 24583 |
 | R1 (held-out, chosen) | 10 | 40.0 | 40.0 | 20.0 | 2012 | 9095 / 25718 | 9095 / 25718 |
 
-**R1:** R2's quality, 18% fewer tokens; tokens per minute binds. Latency is mostly TPM queueing. Near the limit L1 uses 2 chunks; at L3 retrieval is the answer. T = 0.13 only saves tokens: the model refused every unanswerable dev question.
+**R1:** R2's quality, 18% fewer tokens; tokens per minute binds. Near the limit L1 uses 2 chunks; at L3 retrieval is the answer. T = 0.13 only saves tokens: the model refused every unanswerable dev question.
 
 ## How this library will mislead a naive retriever
 
@@ -69,18 +69,18 @@ Only 429, 5xx, timeouts, dropped connections; ≤2; the provider's hint plus jit
 
 ## 7. What the person sees
 
-In ~20 ms, zero tokens: *"Our daily model budget is used up, so I can't write an answer. These passages from the papers best match your question:"* plus three cited excerpts: never wrong, maybe not an answer. One request returns every 86.4 s.
+In ~20 ms, zero tokens: *"Our daily model budget is used up, so I can't write an answer. These passages from the papers best match your question:"* plus three cited excerpts: never wrong, maybe not an answer.
 
 ## 8. What I'm unsure about, what I left out, what I learned
 
-**Least certain:** 20 s patience; at 5 s most queued answers under load are lost and the ladder must step down earlier. **Not built:** a re-ranker; a check that a cited paper is the one the question names (would have refused q19). **New to me: rate limits are buckets that refill, not counters that reset.** I expected "1,000 requests per day" to reset at midnight. The probe showed `x-ratelimit-reset-requests` growing by 86.4 s with every call: 86,400 s ÷ 1,000. The allowance refills continuously, so "daily budget exhausted" is not a cliff: one request comes back every 86.4 s, and both the limiter and the stand-in had to be built around that.
+**Least certain:** 20 s patience; at 5 s most queued answers under load are lost and the ladder must step down earlier. **Not built:** a re-ranker; a check that a cited paper is the one the question names (would have refused q19). **Hardest:** fast, good, cheap and nobody turned away cannot all win, so I chose an order: correct, then available (always *some* reply), then cheap, then fast. The ladder is that order made explicit. **New to me: rate limits are buckets that refill, not counters that reset.** I expected "1,000 requests per day" to reset at midnight. The probe showed `x-ratelimit-reset-requests` growing by 86.4 s with every call: 86,400 s ÷ 1,000. The allowance refills continuously, so "daily budget exhausted" is not a cliff: one request comes back every 86.4 s, and both the limiter and the stand-in had to be built around that.
 
 ## Your feedback on Vaani
 
-I have followed Vaani's journey for about a year, since I first reached out to Tushar; his work has inspired me since. With Vaani's launch as a product I enjoyed going through the docs: the number of features is remarkable. Two stood out: interruption handling, which was new to me, and adding ambient background sound. **[YOU: one thing that confused you.]** One thing I would change: the Quickstart shows only cURL and Python. Official SDKs, or at least samples, in Node/TypeScript, Go and Java would meet backend teams where they already are; I built this assignment in Go and would have had to write the client by hand.
+I have followed Vaani for about a year, since I first reached out to Tushar, whose work inspired me. Going through the docs after launch, the range of features stood out, especially interruption handling (new to me) and ambient background sound. Confusing: two docs domains (docs.vaani.dev, docs.vaanivoice.ai), and docs that open on a REST API page with no overview of how a call flows. I would change: the Quickstart has only cURL and Python; SDKs or samples in Node, Go and Java would meet more teams where they are. I built this in Go and wrote my client by hand.
 
 ## How I worked with the assistant
 
 I started by sitting with Claude to understand what we were building, then did the system design myself and wrote `DESIGN.md`, where every decision was taken after careful consideration. With the build plan ready, building it was a matter of time. I hold one rule: never ship a line of code I don't understand. AI is good when it raises your speed and efficiency, not when it makes your decisions, and that is where I spent most of my effort in this project: the design and architecture. Most of the code was produced by Claude, but I went through every file, and from the very beginning every file and function has its own tests; each new feature ran the full suite (`gofmt`, `go vet`, tests with the race detector) before its commit, so we never broke something or faked it.
 
-**Prompts that mattered:** giving it my design with one rule, *give less, never something wrong*; "run the probe", which turned assumed limits into measured ones; and "fix and rerun", which found three more bugs instead of shipping the first numbers. **Caught:** verify let an uncited sentence from the model's own knowledge through; all tests passed, and I caught it on the first real Groq answer. Later its first fix for a "busy instead of passages" bug was not the cause; a test reproducing the run found the real one. **Overruled:** it recommended writing my own questions before any eval; I chose to run with placeholders to keep moving, at the cost of redoing the graded runs with my own questions. **Distinctly mine:** the one-rule design, a single model call with rule-based rewriting, the zero-token L3 rung, the open-loop generator with its lag check, and measuring limits instead of trusting the docs.
+**Prompts that mattered:** giving it my design with one rule, *give less, never something wrong*; "run the probe", which turned assumed limits into measured ones; and "fix and rerun", which found three more bugs instead of shipping the first numbers. **Caught:** verify let an uncited sentence from the model's own knowledge through; all tests passed, and I caught it on the first real Groq answer. Later its first fix for a "busy instead of passages" bug was not the cause; a test reproducing the run found the real one. **Overruled:** it recommended writing my own questions before any eval; I chose to run with its drafted questions to keep moving; the cost is that my quality numbers rest on questions I reviewed rather than wrote. **Distinctly mine:** the one-rule design, a single model call with rule-based rewriting, the zero-token L3 rung, the open-loop generator with its lag check, and measuring limits instead of trusting the docs.
