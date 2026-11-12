@@ -11,6 +11,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"relay/internal/bucket"
 )
 
 // Server implements POST /chat/completions (streaming only).
@@ -21,10 +23,10 @@ type Server struct {
 	mu       sync.Mutex
 	rng      *rand.Rand
 	inFlight int
-	rpm      *bucket
-	tpm      *bucket
-	rpd      *bucket
-	tpd      *bucket
+	rpm      *bucket.Bucket
+	tpm      *bucket.Bucket
+	rpd      *bucket.Bucket
+	tpd      *bucket.Bucket
 }
 
 func New(cfg Config) *Server {
@@ -37,10 +39,10 @@ func newWithClock(cfg Config, now func() time.Time) *Server {
 		cfg: cfg,
 		now: now,
 		rng: rand.New(rand.NewPCG(cfg.Seed, cfg.Seed)),
-		rpm: newBucket(cfg.RPM, time.Minute, -1, t),
-		tpm: newBucket(cfg.TPM, time.Minute, -1, t),
-		rpd: newBucket(cfg.RPD, 24*time.Hour, cfg.StartRPD, t),
-		tpd: newBucket(cfg.TPD, 24*time.Hour, cfg.StartTPD, t),
+		rpm: bucket.New(cfg.RPM, time.Minute, -1, t),
+		tpm: bucket.New(cfg.TPM, time.Minute, -1, t),
+		rpd: bucket.New(cfg.RPD, 24*time.Hour, cfg.StartRPD, t),
+		tpd: bucket.New(cfg.TPD, 24*time.Hour, cfg.StartTPD, t),
 	}
 }
 
@@ -120,7 +122,7 @@ func (s *Server) admit(req *request) (plan, *refusal) {
 		return plan{}, &refusal{"requests", time.Second, fmt.Sprintf("Too many requests in flight: Limit %d.", s.cfg.MaxInFlight)}
 	}
 	checks := []struct {
-		b    *bucket
+		b    *bucket.Bucket
 		n    float64
 		kind string
 		name string
@@ -131,14 +133,14 @@ func (s *Server) admit(req *request) (plan, *refusal) {
 		{s.tpd, float64(tokensIn), "tokens", "tokens per day (TPD)"},
 	}
 	for _, c := range checks {
-		if wait := c.b.wait(c.n, now); wait > 0 {
+		if wait := c.b.Wait(c.n, now); wait > 0 {
 			msg := fmt.Sprintf("Rate limit reached for model `%s` on %s: Limit %d, Requested %d. Please try again in %s.",
-				req.Model, c.name, int(c.b.capacity), int(c.n), wait.Round(time.Millisecond))
+				req.Model, c.name, c.b.Capacity(), int(c.n), wait.Round(time.Millisecond))
 			return plan{}, &refusal{c.kind, wait, msg}
 		}
 	}
 	for _, c := range checks {
-		c.b.charge(c.n, now)
+		c.b.Charge(c.n, now)
 	}
 
 	s.inFlight++
@@ -187,8 +189,8 @@ func (s *Server) stream(w http.ResponseWriter, ctx context.Context, req request,
 	}
 
 	s.mu.Lock()
-	s.tpm.charge(float64(tokensOut), s.now())
-	s.tpd.charge(float64(tokensOut), s.now())
+	s.tpm.Charge(float64(tokensOut), s.now())
+	s.tpd.Charge(float64(tokensOut), s.now())
 	s.mu.Unlock()
 
 	writeChunk(w, map[string]any{"choices": []any{}, "usage": map[string]int{"prompt_tokens": p.tokensIn, "completion_tokens": tokensOut}})
@@ -224,14 +226,14 @@ func (s *Server) setLimitHeaders(w http.ResponseWriter) {
 	now := s.now()
 	h := w.Header()
 	if s.rpd != nil {
-		h.Set("x-ratelimit-limit-requests", strconv.Itoa(int(s.rpd.capacity)))
-		h.Set("x-ratelimit-remaining-requests", strconv.Itoa(s.rpd.remaining(now)))
-		h.Set("x-ratelimit-reset-requests", s.rpd.untilFull(now).Round(10*time.Millisecond).String())
+		h.Set("x-ratelimit-limit-requests", strconv.Itoa(s.rpd.Capacity()))
+		h.Set("x-ratelimit-remaining-requests", strconv.Itoa(s.rpd.Remaining(now)))
+		h.Set("x-ratelimit-reset-requests", s.rpd.UntilFull(now).Round(10*time.Millisecond).String())
 	}
 	if s.tpm != nil {
-		h.Set("x-ratelimit-limit-tokens", strconv.Itoa(int(s.tpm.capacity)))
-		h.Set("x-ratelimit-remaining-tokens", strconv.Itoa(s.tpm.remaining(now)))
-		h.Set("x-ratelimit-reset-tokens", s.tpm.untilFull(now).Round(time.Millisecond).String())
+		h.Set("x-ratelimit-limit-tokens", strconv.Itoa(s.tpm.Capacity()))
+		h.Set("x-ratelimit-remaining-tokens", strconv.Itoa(s.tpm.Remaining(now)))
+		h.Set("x-ratelimit-reset-tokens", s.tpm.UntilFull(now).Round(time.Millisecond).String())
 	}
 }
 

@@ -198,25 +198,6 @@ func TestSlowerUnderLoad(t *testing.T) {
 	}
 }
 
-func TestBucket(t *testing.T) {
-	t0 := time.Unix(0, 0)
-	b := newBucket(60, time.Minute, -1, t0) // 1 per second
-	b.charge(60, t0)
-	if w := b.wait(1, t0); w != time.Second {
-		t.Errorf("wait = %v, want 1s", w)
-	}
-	if w := b.wait(1, t0.Add(time.Second)); w != 0 {
-		t.Errorf("after 1s wait = %v, want 0", w)
-	}
-	if got := b.untilFull(t0.Add(time.Second)); got != 59*time.Second {
-		t.Errorf("untilFull = %v", got)
-	}
-	var none *bucket
-	if none.wait(1e9, t0) != 0 {
-		t.Error("nil bucket must never limit")
-	}
-}
-
 func TestPiecesRejoin(t *testing.T) {
 	text := "one two three four five six seven"
 	if got := strings.Join(pieces(text, 3), ""); got != text {
