@@ -61,3 +61,9 @@ Changes to DESIGN.md after 2026-11-12 are recorded here, newest last. Each entry
 **Decision:** `Search` returns both the raw score and `Norm` = score / (Σ over query terms of idf·(k1+1)), the best score that query could ever get. T is compared with the top hit's `Norm`, not its raw score.
 **Why:** Raw BM25 grows with the number of query terms, so one threshold cannot serve a 3-word and a 12-word question. Normalising also makes words the papers never use count against the query: "speech dijkstra" scores 0.16 against "speech model"'s 0.51 on the same chunk, though their raw scores are close (1.09 vs 1.24).
 **Cost:** A long question with many filler-but-not-stopword words gets a lower `Norm` and may be refused wrongly. The rewrite step's filler removal matters more because of this.
+
+## D11 — 2026-11-12 — Verify demands a real quote, compares typography-blind
+
+**Decision:** Beyond DESIGN §2's checks (cited ids were retrieved, quotes appear in the chunk they cite, at least one citation), a non-refusal must contain at least one verified quote of 3+ words. Quotes are compared after collapsing whitespace and unifying curly quotes, apostrophes and dashes; case is kept; punctuation just inside the closing quote mark is ignored. A quote belongs to the first citation after it. A refusal shows only the refusal sentence, never text after it.
+**Why:** A citation alone can point at a real chunk while the claim beside it is invented; a verbatim quote ties the answer to the source. The PDFs use typographic characters the model rarely reproduces, so a strict byte match would refuse correct answers.
+**Cost:** More redrafts and refusals for answers that paraphrase well but quote nothing. Still cannot catch a true quote beside a false claim (a test pins this limit).
