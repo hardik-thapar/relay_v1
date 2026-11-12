@@ -18,7 +18,7 @@ Go pipeline: **rewrite** (rules) → **retrieve** (own BM25) → **decide** (ref
 | When a limit is hit | 429 in 62–237 ms; `retry-after`; body names limit and wait | captured | High |
 | Time to recover | RPM 2 s; TPM shortfall ÷ 133 tokens/s | poll; arithmetic on 429 | Medium |
 
-From 61 planned calls (`results/probe/`). The **stand-in** speaks Groq's wire format, resamples probe latencies, adds 24 ms per request in flight, and refuses with Groq-shaped buckets and 429s. **Least like Groq:** real slowness comes from other tenants, not my load; its limits are exact where Groq leaked; its failures are chosen.
+From 61 planned calls. The **stand-in** speaks Groq's wire format, resamples probe latencies, adds 24 ms per request in flight, and refuses with Groq-shaped buckets and 429s. **Least like Groq:** real slowness comes from other tenants, not my load; its limits are exact where Groq leaked; its failures are chosen.
 
 ## 3. Results
 
@@ -38,11 +38,11 @@ From 61 planned calls (`results/probe/`). The **stand-in** speaks Groq's wire fo
 | Limit halved | 91.7 | 8.3 | 0.0 | 0.00 | 0 | 1424 | $0.117 |
 | Daily budget exhausted | 28.6 | 71.4 | 0.0 | 0.00 | 0 | 1380 | $0.114 |
 
-Cost: $0 free; shown at $0.075/$0.30 per M tokens. Real steady's other 12.5% are dropped connections; rate-limited includes L2/L3. Stand-in steady: p50 448 ms, 100% ok. **Quality** (held-out, 10): 40% correct and cited, 40% wrong, 20% correctly refused, 2,012 tokens/answer; by hand 6 correct, 1 wrong (`results/eval_review.md`). **Unguessable:** 34 of 35 passed a 30 RPM limit; three correct answers were refused over U+2011 in "Mamba‑2".
+Cost: $0 free; shown at $0.075/$0.30 per M tokens. Real steady's other 12.5% are dropped connections; rate-limited includes L2/L3. Stand-in steady: p50 448 ms, 100% ok. **Quality** (R1, 20 questions): 40.0% correct and cited, 30.0% wrong, 25.0% correctly refused, 5.0% wrongly refused, 2,006 tokens/answer; held-out by hand: 6 of 10 correct, 1 wrong. **Unguessable:** 34 of 35 passed a 30 RPM limit; three correct answers were refused over U+2011 in "Mamba‑2".
 
 ## 4. Where the time goes
 
-Real steady `steady-R1-071824-0005`: 12,274 ms = **11,868 waiting** in our queue for TPM + **400 working** in the model + 6 ours, no retries; all before the first token.
+Real steady `steady-R1-071824-0005`: 12,274 ms = **11,868 waiting** in our queue for TPM + **400 working** in the model + 6 ours, no retries; all before the first token. Known from per-row `queue_wait_ms` and `model_ms`, timed separately.
 
 ## 5. When a limit is hit
 
@@ -65,7 +65,7 @@ Real steady `steady-R1-071824-0005`: 12,274 ms = **11,868 waiting** in our queue
 
 ## 6. Retries
 
-Only 429, 5xx, timeouts, dropped connections; ≤2; the provider's hint plus jitter, else full-jitter backoff; never past the deadline. **Worse:** with limits silently halved, naive retries (fixed 1 s, hint ignored) hit 3 429s instead of 1 on `…-0011` and still failed, 11.8 s vs 9.5 s. Small: under plain overload both tied, as our limiter kept calls off Groq's 429s.
+Only 429, 5xx, timeouts, drops; ≤2; provider's hint plus jitter, else full-jitter backoff; never past the deadline. **Worse:** with limits silently halved, naive retries (fixed 1 s, hint ignored) hit 3 429s instead of 1 on `…-0011` and still failed, 11.8 s vs 9.5 s. Small: under plain overload both tied, as our limiter kept calls off Groq's 429s.
 
 ## 7. What the person sees
 
@@ -73,7 +73,7 @@ In ~20 ms, zero tokens: *"Our daily model budget is used up, so I can't write an
 
 ## 8. What I'm unsure about, what I left out, what I learned
 
-**Least certain:** 20 s patience; at 5 s most queued answers under load are lost and the ladder must step down earlier. **Not built:** a re-ranker; a check that a cited paper is the one the question names (would have refused q19). **Hardest:** fast, good, cheap and nobody turned away cannot all win, so I chose an order: correct, then available (always *some* reply), then cheap, then fast. The ladder is that order made explicit. **New to me: rate limits are buckets that refill, not counters that reset.** I expected "1,000 requests per day" to reset at midnight. The probe showed `x-ratelimit-reset-requests` growing by 86.4 s with every call: 86,400 s ÷ 1,000. The allowance refills continuously, so "daily budget exhausted" is not a cliff: one request comes back every 86.4 s, and both the limiter and the stand-in had to be built around that.
+**Least certain:** 20 s patience; at 5 s most queued answers under load are lost and the ladder must step down earlier. **Deliberately not built:** embeddings and a re-ranker; neither fixes q19's wrong-paper answer, a cited-paper check would. **Hardest:** fast, good, cheap and nobody turned away cannot all win, so I chose an order: correct, then available (always *some* reply), then cheap, then fast. The ladder is that order made explicit. **New to me: rate limits are buckets that refill, not counters that reset.** I expected "1,000 requests per day" to reset at midnight. The probe showed `x-ratelimit-reset-requests` growing by 86.4 s with every call: 86,400 s ÷ 1,000. The allowance refills continuously, so "daily budget exhausted" is not a cliff: one request comes back every 86.4 s, and both the limiter and the stand-in had to be built around that.
 
 ## Your feedback on Vaani
 
