@@ -49,6 +49,7 @@ func run(args []string, out io.Writer) error {
 	outPath := fs.String("out", "results/results.csv", "results file (appended)")
 	qPath := fs.String("questions", "eval/questions.json", "questions file")
 	data := fs.String("data", "data/parsed", "parsed papers directory")
+	answersPath := fs.String("answers", "results/answers.jsonl", "eval only: answer texts for review (appended)")
 	if err := fs.Parse(args); err != nil {
 		return err
 	}
@@ -125,6 +126,12 @@ func run(args []string, out io.Writer) error {
 		r.Grade = func(id string, rep pipeline.Reply) string {
 			return eval.Grade(byID[id], rep.Text, rep.Refused, rep.Cited)
 		}
+		af, err := os.OpenFile(*answersPath, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0o644)
+		if err != nil {
+			return err
+		}
+		defer af.Close()
+		r.Answers = af
 		// Closed loop: one question at a time, so Table 3's latencies are
 		// the pipeline's, not a queue's.
 		for _, q := range qs {

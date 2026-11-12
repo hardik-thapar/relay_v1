@@ -99,3 +99,11 @@ Changes to DESIGN.md after 2026-11-12 are recorded here, newest last. Each entry
 - First token for timeouts/errors is empty: the person saw no answer.
 
 **Cost:** Patience is a fixed 20 s for everyone (a guess, DESIGN §5); the runs show what it costs. Stand-in answer grades are meaningless (D9).
+
+## D15 — 2026-11-12 — Setting R1, threshold T = 0.13 (from the dev half, placeholder questions)
+
+**Measured** (real Groq, dev half, T = 0, `results.csv` rows `eval-R*`): R1 and R2 both 4 correct / 2 wrong / 3 correctly refused of 10; R3 2 / 3 / 3. Tokens per answer R1 1,999, R2 2,438, R3 1,785. Model time p50 R1 730 ms, R2 1,333 ms.
+**Decision:** R1 (≈150-word pieces, 6 fetched). Same quality as R2 on dev with 18% fewer tokens, and tokens per minute is the limit that binds (D6), so R1 serves more answers per minute.
+**T = 0.13:** between the off-topic question's top score (0.10–0.12) and the lowest answerable dev question (0.154). The model itself refused all three unanswerable dev questions, so T is a token saver for clearly off-topic questions, not the safety net; verify and the model's own refusal are. Raising T to 0.30 would have removed R2's two wrong answers on dev but refused three answerable ones, and is fitted to two questions.
+**Cost:** Ten dev questions decide this; the margin between R1 and R2 is noise-sized. Two of the "wrong" grades are grader strictness (see `results/eval_review.md`). Closed-loop eval latency is dominated by waiting for TPM refill (slowest dev answer: 31.2 s queue, 1.5 s model).
+**Caveat:** decided on placeholder questions; redo with the final set.

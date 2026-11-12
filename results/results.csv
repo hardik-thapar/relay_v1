@@ -1,0 +1,31 @@
+request_id,scenario,source,start_time,first_token_ms,total_ms,status,retries,tokens_in,tokens_out,retrieval_setting,answer_grade,question_id,queue_wait_ms,model_ms,queue_len_at_arrival,ladder_level,n_429_seen,error_detail,start_lag_ms,top_norm
+eval-R1-070631-0000,eval,real,2026-11-12T07:06:31.076768Z,581,581,ok,0,1350,188,R1,correct,q01,0,579,0,0,0,verified (2 uncited sentences dropped),1,0.4977
+eval-R1-070631-0000,eval,real,2026-11-12T07:06:31.678324Z,1224,1224,ok,0,1836,40,R1,refused_wrongly,q02,0,1221,0,0,0,model found no answer in the chunks,1,0.3538
+eval-R1-070632-0000,eval,real,2026-11-12T07:06:32.92307Z,734,734,ok,0,1634,93,R1,correct,q03,0,730,0,0,0,verified (1 uncited sentences dropped),1,0.2659
+eval-R1-070633-0000,eval,real,2026-11-12T07:06:33.67733Z,654,654,ok,0,1505,114,R1,wrong,q04,0,651,0,0,0,verified (2 uncited sentences dropped),1,0.2680
+eval-R1-070634-0000,eval,real,2026-11-12T07:06:34.352125Z,21768,21768,ok,0,3976,262,R1,correct,q05,19625,2138,0,0,0,verified (3 uncited sentences dropped),1,0.1543
+eval-R1-070656-0000,eval,real,2026-11-12T07:06:56.140562Z,16471,16471,ok,0,1804,151,R1,wrong,q06,15938,527,0,0,0,verified (1 uncited sentences dropped),1,0.3227
+eval-R1-070712-0000,eval,real,2026-11-12T07:07:12.63198Z,13636,13636,ok,0,1632,102,R1,correct,q07,12775,856,0,0,0,verified (1 uncited sentences dropped),0,0.3828
+eval-R1-070726-0000,eval,real,2026-11-12T07:07:26.288701Z,12243,12243,ok,0,1725,38,R1,refused_correctly,q08,11756,483,0,0,0,model found no answer in the chunks,1,0.3684
+eval-R1-070738-0000,eval,real,2026-11-12T07:07:38.552928Z,13892,13892,ok,0,1974,40,R1,refused_correctly,q09,13381,506,0,0,0,model found no answer in the chunks,1,0.2895
+eval-R1-070752-0000,eval,real,2026-11-12T07:07:52.465819Z,14676,14676,ok,0,1486,43,R1,refused_correctly,q10,14099,571,0,0,0,model found no answer in the chunks,1,0.1020
+eval-R2-070807-0000,eval,real,2026-11-12T07:08:07.230726Z,16651,16651,ok,2,2735,274,R2,correct,q01,10388,1333,0,0,2,verified (1 uncited sentences dropped),1,0.5752
+eval-R2-070823-0000,eval,real,2026-11-12T07:08:23.902764Z,15022,15022,ok,0,2155,55,R2,refused_wrongly,q02,14349,669,0,0,0,model found no answer in the chunks,1,0.3809
+eval-R2-070838-0000,eval,real,2026-11-12T07:08:38.945262Z,16571,16571,ok,0,2068,108,R2,correct,q03,15084,1483,0,0,0,verified (1 uncited sentences dropped),1,0.3260
+eval-R2-070855-0000,eval,real,2026-11-12T07:08:55.537509Z,15939,15939,ok,0,1826,101,R2,wrong,q04,15352,582,0,0,0,verified (2 uncited sentences dropped),0,0.2926
+eval-R2-070911-0000,eval,real,2026-11-12T07:09:11.497598Z,32763,32763,ok,0,4615,283,R2,wrong,q05,31243,1509,0,0,0,verified (4 uncited sentences dropped),1,0.1675
+eval-R2-070944-0000,eval,real,2026-11-12T07:09:44.281881Z,20695,20695,ok,0,2267,216,R2,correct,q06,19545,1139,0,0,0,verified (0 uncited sentences dropped),1,0.4113
+eval-R2-071004-0000,eval,real,2026-11-12T07:10:04.997675Z,16205,16205,ok,0,2008,86,R2,correct,q07,15755,447,0,0,0,verified (1 uncited sentences dropped),1,0.4436
+eval-R2-071021-0000,eval,real,2026-11-12T07:10:21.224006Z,13015,13015,ok,0,1447,38,R2,refused_correctly,q08,12509,500,0,0,0,model found no answer in the chunks,1,0.3648
+eval-R2-071034-0000,eval,real,2026-11-12T07:10:34.25963Z,14646,14646,ok,0,2284,38,R2,refused_correctly,q09,13056,1584,0,0,0,model found no answer in the chunks,1,0.3750
+eval-R2-071048-0000,eval,real,2026-11-12T07:10:48.926331Z,16156,16156,ok,0,1736,39,R2,refused_correctly,q10,15562,589,0,0,0,model found no answer in the chunks,1,0.1197
+eval-R3-071105-0000,eval,real,2026-11-12T07:11:05.183139Z,9311,9311,ok,0,1858,276,R3,correct,q01,6863,2446,0,0,0,verified (1 uncited sentences dropped),1,0.5752
+eval-R3-071114-0000,eval,real,2026-11-12T07:11:14.515327Z,8857,8857,ok,0,1095,34,R3,refused_wrongly,q02,8330,523,0,0,0,model found no answer in the chunks,1,0.3809
+eval-R3-071123-0000,eval,real,2026-11-12T07:11:23.393265Z,9111,9111,ok,0,1157,111,R3,wrong,q03,8205,902,0,0,0,verified (1 uncited sentences dropped),1,0.3260
+eval-R3-071132-0000,eval,real,2026-11-12T07:11:32.525161Z,18283,18283,ok,0,2085,241,R3,wrong,q04,15735,2543,0,0,0,verified (4 uncited sentences dropped),1,0.2926
+eval-R3-071150-0000,eval,real,2026-11-12T07:11:50.829283Z,18732,18732,ok,0,2577,290,R3,wrong,q05,16635,2093,0,0,0,verified (3 uncited sentences dropped),0,0.1675
+eval-R3-071209-0000,eval,real,2026-11-12T07:12:09.582291Z,24583,24583,ok,0,2689,407,R3,refused_wrongly,q06,22395,2184,0,0,0,"verify failed: the quote ""smooths using information from previous chunks"" is not word for word in [2507.07955v2#17]; no exact quote of at least 3 words supports the answer",1,0.4113
+eval-R3-071234-0000,eval,real,2026-11-12T07:12:34.186571Z,9795,9795,ok,0,1143,82,R3,correct,q07,8886,903,0,0,0,verified (1 uncited sentences dropped),0,0.4436
+eval-R3-071244-0000,eval,real,2026-11-12T07:12:44.001895Z,8961,8961,ok,0,1071,46,R3,refused_correctly,q08,8418,540,0,0,0,model found no answer in the chunks,0,0.3648
+eval-R3-071252-0000,eval,real,2026-11-12T07:12:52.983272Z,8779,8779,ok,0,1516,41,R3,refused_correctly,q09,8293,482,0,0,0,model found no answer in the chunks,1,0.3750
+eval-R3-071301-0000,eval,real,2026-11-12T07:13:01.782796Z,11270,11270,ok,0,1085,50,R3,refused_correctly,q10,10782,485,0,0,0,model found no answer in the chunks,1,0.1197

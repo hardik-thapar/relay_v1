@@ -33,7 +33,7 @@ func fastWorld(t *testing.T, name string) {
 func runArgs(t *testing.T, extra ...string) ([]map[string]string, string) {
 	t.Helper()
 	path := filepath.Join(t.TempDir(), "results.csv")
-	args := append([]string{"-out", path, "-questions", "../../eval/questions.json", "-data", "../../data/parsed"}, extra...)
+	args := append([]string{"-out", path, "-answers", filepath.Join(t.TempDir(), "answers.jsonl"), "-questions", "../../eval/questions.json", "-data", "../../data/parsed"}, extra...)
 	var out bytes.Buffer
 	if err := run(args, &out); err != nil {
 		t.Fatal(err)

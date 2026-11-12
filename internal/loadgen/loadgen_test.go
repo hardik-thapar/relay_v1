@@ -1,7 +1,9 @@
 package loadgen
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -131,6 +133,21 @@ func TestLatencyCountsFromScheduledStart(t *testing.T) {
 		pipeline.Reply{Status: "timeout", Released: sched.Add(300 * time.Millisecond)})
 	if row.TotalMS != 300 || row.FirstTokenMS != -1 || row.StartLagMS != 5 {
 		t.Errorf("row %+v", row)
+	}
+}
+
+func TestAnswersLogKeepsTextForReview(t *testing.T) {
+	w, _ := openWriter(t)
+	var log bytes.Buffer
+	a := &slowAsker{d: time.Millisecond}
+	run := Run{Scenario: "eval", Source: "real", Setting: "R1", Patience: time.Second, Answers: &log,
+		Jobs: []Job{{QuestionID: "q1", Question: "Why?"}}, Grade: func(string, pipeline.Reply) string { return "wrong" }}
+	if _, err := run.Execute(context.Background(), a, w); err != nil {
+		t.Fatal(err)
+	}
+	var got answerLine
+	if err := json.Unmarshal(log.Bytes(), &got); err != nil || got.QuestionID != "q1" || got.Question != "Why?" || got.Grade != "wrong" {
+		t.Errorf("answers log %q -> %+v (%v)", log.String(), got, err)
 	}
 }
 

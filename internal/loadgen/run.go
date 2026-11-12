@@ -2,7 +2,9 @@ package loadgen
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"io"
 	"sort"
 	"sync"
 	"time"
@@ -33,6 +35,23 @@ type Run struct {
 
 	// Grade, if set, fills answer_grade (eval rows only).
 	Grade func(questionID string, r pipeline.Reply) string
+
+	// Answers, if set, receives one JSON line per reply with the text the
+	// person saw, so graded rows can be re-read by hand (DESIGN §7).
+	Answers io.Writer
+}
+
+// answerLine is one entry of the answers log.
+type answerLine struct {
+	RequestID  string   `json:"request_id"`
+	QuestionID string   `json:"question_id"`
+	Setting    string   `json:"setting"`
+	Question   string   `json:"question"`
+	Text       string   `json:"text"`
+	Refused    bool     `json:"refused"`
+	Cited      []string `json:"cited"`
+	Grade      string   `json:"grade"`
+	Detail     string   `json:"detail"`
 }
 
 // Summary is what the run reports at the end.
@@ -78,7 +97,14 @@ func (r Run) Execute(ctx context.Context, a Asker, w *results.Writer) (Summary, 
 			defer wg.Done()
 			rep := a.Answer(ctx, job.Question, scheduled.Add(r.Patience))
 			row := r.row(id, job, scheduled, lag, rep)
-			if err := w.Write(row); err != nil {
+			err := w.Write(row)
+			if err == nil && r.Answers != nil {
+				b, _ := json.Marshal(answerLine{id, job.QuestionID, r.Setting, job.Question, rep.Text, rep.Refused, rep.Cited, row.AnswerGrade, rep.Detail})
+				mu.Lock()
+				_, err = r.Answers.Write(append(b, '\n'))
+				mu.Unlock()
+			}
+			if err != nil {
 				mu.Lock()
 				werr = err
 				mu.Unlock()
