@@ -1,0 +1,3 @@
+#!/bin/sh
+# Block the commit unless gofmt, go vet and all tests pass.
+exec make check

@@ -1,0 +1,14 @@
+# Secrets: the Groq key lives only in the GROQ_API_KEY env var.
+.env
+*.key
+
+# Downloaded PDFs are fetched by script at pinned versions, not committed.
+data/pdf/
+
+# Build output
+/bin/
+
+# Local noise
+.DS_Store
+__pycache__/
+*.pyc
