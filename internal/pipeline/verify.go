@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+	"unicode"
 
 	"relay/internal/corpus"
 )
@@ -36,9 +37,11 @@ var (
 //  2. a refusal is accepted as is;
 //  3. it cites at least one chunk, and only chunks that were retrieved;
 //  4. every quote appears word for word in the chunk cited right after it;
-//  5. at least one quote is 3+ words long, so the answer carries evidence.
+//  5. at least one quote is 3+ words long, so the answer carries evidence;
+//  6. every sentence carries a citation, so no claim rides along unbacked.
 //
-// Known limit: a correct quote placed next to a wrong claim passes.
+// Known limit: a correct quote placed next to a wrong claim passes, and a
+// cited sentence can still say more than its chunk does.
 func Verify(answer string, retrieved []corpus.Chunk) Verdict {
 	var v Verdict
 	text := strings.TrimSpace(answer)
@@ -83,16 +86,22 @@ func Verify(answer string, retrieved []corpus.Chunk) Verdict {
 		if !known {
 			continue // already reported above
 		}
-		if !strings.Contains(normalize(chunk.Text), normalize(trimEnd(quote))) {
+		longest, ok := quoteInChunk(quote, chunk.Text)
+		if !ok {
 			v.Problems = append(v.Problems, fmt.Sprintf("the quote %q is not word for word in [%s]", quote, id))
 			continue
 		}
-		if len(strings.Fields(quote)) >= minEvidenceWords {
+		if longest >= minEvidenceWords {
 			evidence = true
 		}
 	}
 	if !evidence && len(cites) > 0 {
 		v.Problems = append(v.Problems, fmt.Sprintf("no exact quote of at least %d words supports the answer", minEvidenceWords))
+	}
+	for _, s := range sentences(text) {
+		if len(strings.Fields(s)) >= minClaimWords && !citeRe.MatchString(s) {
+			v.Problems = append(v.Problems, fmt.Sprintf("this sentence has no citation: %q", s))
+		}
 	}
 
 	v.OK = len(v.Problems) == 0
@@ -130,14 +139,87 @@ func citationAfter(text string, cites [][]int, pos int) (string, bool) {
 	return "", false
 }
 
+// ellipsis splits a quote into the passages it joins ("A … B").
+var ellipsis = regexp.MustCompile(`\s*(?:…|\.\.\.)\s*`)
+
+// quoteInChunk checks a quote against its chunk. A quote that joins
+// passages with an ellipsis is checked piece by piece; every piece must be
+// in the chunk word for word. Case is ignored (writers lowercase a quote's
+// first word to fit their sentence) and so is typography. It returns the
+// word count of the longest piece, which decides whether it is evidence.
+func quoteInChunk(quote, chunkText string) (int, bool) {
+	source := strings.ToLower(normalize(chunkText))
+	longest := 0
+	for _, piece := range ellipsis.Split(trimEnd(quote), -1) {
+		piece = strings.ToLower(normalize(trimEnd(piece)))
+		if piece == "" {
+			continue
+		}
+		if !strings.Contains(source, piece) {
+			return 0, false
+		}
+		longest = max(longest, len(strings.Fields(piece)))
+	}
+	return longest, longest > 0
+}
+
+// KeepCited drops sentences that cite nothing and returns the rest with
+// how many were dropped. The pipeline shows less rather than show a claim
+// with nothing behind it (DESIGN §1: give less, never something wrong).
+// What remains still goes through Verify.
+func KeepCited(text string) (string, int) {
+	var kept []string
+	dropped := 0
+	for _, s := range sentences(text) {
+		if len(strings.Fields(s)) >= minClaimWords && !citeRe.MatchString(s) {
+			dropped++
+			continue
+		}
+		kept = append(kept, s)
+	}
+	return strings.Join(kept, " "), dropped
+}
+
+// minClaimWords: shorter fragments ("Fig." left over from splitting
+// "Fig. 2") are not claims and need no citation.
+const minClaimWords = 4
+
+// sentences splits text at . ! or ? followed by whitespace, never inside
+// a quotation, so a full stop inside a quoted passage does not split it.
+func sentences(text string) []string {
+	var out []string
+	var cur strings.Builder
+	inQuote := false
+	rs := []rune(text)
+	for i, r := range rs {
+		cur.WriteRune(r)
+		switch r {
+		case '"':
+			inQuote = !inQuote
+		case '“':
+			inQuote = true
+		case '”':
+			inQuote = false
+		case '.', '!', '?':
+			if !inQuote && (i+1 == len(rs) || unicode.IsSpace(rs[i+1])) {
+				out = append(out, strings.TrimSpace(cur.String()))
+				cur.Reset()
+			}
+		}
+	}
+	if s := strings.TrimSpace(cur.String()); s != "" {
+		out = append(out, s)
+	}
+	return out
+}
+
 // typography maps characters the PDFs and the model write differently.
 var typography = strings.NewReplacer(
 	"’", "'", "‘", "'", "“", `"`, "”", `"`,
 	"–", "-", "—", "-", "‐", "-", " ", " ",
 )
 
-// normalize collapses whitespace and unifies typography. Case is kept:
-// a quote must be word for word.
+// normalize collapses whitespace and unifies typography.
 func normalize(s string) string {
 	return strings.Join(strings.Fields(typography.Replace(s)), " ")
 }

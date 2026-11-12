@@ -74,3 +74,15 @@ Changes to DESIGN.md after 2026-11-12 are recorded here, newest last. Each entry
 **Why:** TPM binds first (D6), so the token buckets, not a guessed service rate, set throughput. Not queueing what would time out keeps the queue made only of people who will still be there.
 **Found while testing:** the queue-wide estimate can exceed one bucket's capacity. A per-request "never fits" check there would have sent long-queue requests to L3 as if the daily budget were gone. Queue estimates now use an uncapped refill time; "never fits" applies only to a single request.
 **Cost:** A large request at the head blocks smaller ones behind it (FIFO by design, no priorities). Service time is a fixed guess until the runs measure it.
+
+## D13 — 2026-11-12 — Pipeline wiring, and what the first real answers changed in verify
+
+**Decisions:**
+- Every model attempt, retries included, waits in the admission queue and holds a limiter reservation. After each attempt the pipeline settles the reservation, corrects the limiter from headers, and on a 429 pauses everyone for the retry hint.
+- Provider limits are believed only from real headers. A failed call has none, and its zero-value limits once read as "0 requests left today", sending every later request to L3 (caught by a test that took 10 s instead of milliseconds; the client now marks limits unknown until headers arrive).
+- `results.csv` status: L2 ("busy") and L3 (passages only) are `rate_limited`, distinguished by `ladder_level`. An L3 reply is useful but is not a model answer, and a limit is why.
+- First token as the person sees it = release time (answers are buffered until verified, DESIGN §2). The model's own first token is kept separately for "where the time goes".
+- Verify now also requires a citation in every sentence of 4+ words (D11 amended). The first real Groq answer contained an uncited sentence from the model's own knowledge that passed the old checks. Rather than refuse the whole answer, the pipeline **drops uncited sentences** and verifies what is left: the person gets less, never an unbacked claim.
+- Quotes are compared case-insensitively, and a quote joining passages with "…" is checked piece by piece. Real Groq answers lowercased a quote's first word and joined two passages with an ellipsis; both are normal quoting and do not change what the source says.
+
+**Cost:** Dropping sentences can leave a terse answer of quotes. Case-insensitive matching is slightly looser than "word for word". These were tuned on three real answers; the eval measures the false-refusal rate properly.

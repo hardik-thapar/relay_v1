@@ -56,6 +56,10 @@ type RateLimits struct {
 	RetryAfter        time.Duration // only set on 429
 }
 
+// UnknownLimits is RateLimits with no information: what a response that
+// never got headers carries. Never use the zero value to mean "unknown".
+var UnknownLimits = RateLimits{LimitRequests: -1, RemainingRequests: -1, LimitTokens: -1, RemainingTokens: -1}
+
 // Client is the one interface the pipeline sees. On error the returned
 // Response (possibly nil) still carries whatever timings and headers were
 // gathered, so a failed call can be placed on the timeline.

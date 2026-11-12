@@ -202,10 +202,15 @@ func TestCompleteStreamEndsWithoutDone(t *testing.T) {
 
 func TestCompleteUnreachableServer(t *testing.T) {
 	c := NewHTTP("http://127.0.0.1:1", "")
-	_, err := c.Complete(context.Background(), Request{})
+	resp, err := c.Complete(context.Background(), Request{})
 	var ce *ConnError
 	if !errors.As(err, &ce) {
 		t.Errorf("got %T: %v", err, err)
+	}
+	// No headers arrived, so nothing is known about the limits. A zero
+	// value here once made the limiter believe the daily budget was gone.
+	if resp.Limits != UnknownLimits {
+		t.Errorf("limits without headers = %+v, want UnknownLimits", resp.Limits)
 	}
 }
 

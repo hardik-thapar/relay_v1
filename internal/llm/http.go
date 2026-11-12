@@ -72,7 +72,9 @@ func (c *HTTPClient) Complete(ctx context.Context, req Request) (*Response, erro
 		httpReq.Header.Set("Authorization", "Bearer "+c.APIKey)
 	}
 
-	resp := &Response{Sent: time.Now()}
+	// Limits stay "unknown" until headers arrive: a zero value would read
+	// as "0 requests left today" to anyone correcting counts from them.
+	resp := &Response{Sent: time.Now(), Limits: UnknownLimits}
 	hr, err := c.HTTP.Do(httpReq)
 	if err != nil {
 		return resp, classify(ctx, err, resp)

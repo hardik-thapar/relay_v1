@@ -36,7 +36,27 @@ func TestVerify(t *testing.T) {
 		{"quote with no citation after it", `[1706.03762v7#9] says "the dot products grow large in magnitude".`, false, false, "no citation after it"},
 		{"citation but no quote", `Scaling keeps gradients healthy [1706.03762v7#9].`, false, false, "no exact quote"},
 		{"only a short quote", `It is about "the softmax" [1706.03762v7#9].`, false, false, "no exact quote"},
-		{"case changed inside quote", `"The Dot Products grow large in magnitude" [1706.03762v7#9].`, false, false, "not word for word"},
+		// Seen on real Groq: lowercased first word, two passages joined by "…".
+		{"case and ellipsis-joined passages (seen on real Groq)",
+			`Scaling is needed: "we suspect that for large values of dk … pushing the softmax function into regions" [1706.03762v7#9].`,
+			true, false, ""},
+		{"ellipsis piece not in chunk",
+			`"the dot products grow large … and then vanish entirely" [1706.03762v7#9].`,
+			false, false, "not word for word"},
+		{"only short pieces around an ellipsis",
+			`"the dot … small gradients" [1706.03762v7#9].`,
+			false, false, "no exact quote"},
+		// Found on the first real Groq answer: an extra sentence from the
+		// model's own knowledge rode along uncited and passed.
+		{"uncited extra sentence (seen on real Groq)",
+			`Large products saturate the softmax. This keeps training numerically stable and effective. "the dot products grow large in magnitude" [1706.03762v7#9].`,
+			false, false, "has no citation"},
+		{"full stop inside a quote does not split the sentence",
+			`Mimi runs at "a latent representation of 12.5 frames per second." [2410.00037v1#40]`,
+			true, false, ""},
+		{"short fragment needs no citation",
+			`See Fig. 2: "the dot products grow large in magnitude" [1706.03762v7#9].`,
+			true, false, ""},
 		// Known limit (DESIGN §2): a true quote next to a false claim passes.
 		{"known limit: correct quote, wrong claim",
 			`Small dot products cause problems: "the dot products grow large in magnitude" [1706.03762v7#9].`,
@@ -60,5 +80,17 @@ func TestVerifyListsCitedOnce(t *testing.T) {
 	v := Verify(a, chunks)
 	if !v.OK || len(v.Cited) != 2 || v.Cited[0] != "1706.03762v7#9" {
 		t.Errorf("verdict %+v", v)
+	}
+}
+
+func TestKeepCitedDropsOnlyUncitedClaims(t *testing.T) {
+	in := `Large products saturate the softmax. This keeps training stable and effective. "the dot products grow large in magnitude" [1706.03762v7#9]. See Fig. 2.`
+	got, dropped := KeepCited(in)
+	want := `"the dot products grow large in magnitude" [1706.03762v7#9]. See Fig. 2.`
+	if got != want || dropped != 2 {
+		t.Errorf("got %q (dropped %d), want %q", got, dropped, want)
+	}
+	if v := Verify(got, chunks); !v.OK {
+		t.Errorf("kept text should verify: %v", v.Problems)
 	}
 }
