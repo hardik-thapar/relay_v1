@@ -18,7 +18,7 @@ var Columns = []string{
 	"status", "retries", "tokens_in", "tokens_out", "retrieval_setting", "answer_grade",
 	// extras
 	"question_id", "queue_wait_ms", "model_ms", "queue_len_at_arrival",
-	"ladder_level", "n_429_seen", "error_detail", "start_lag_ms",
+	"ladder_level", "n_429_seen", "error_detail", "start_lag_ms", "top_norm",
 }
 
 // Allowed values, from the brief.
@@ -52,7 +52,8 @@ type Row struct {
 	LadderLevel       int // 0..3
 	N429Seen          int
 	ErrorDetail       string
-	StartLagMS        int64 // how late the generator started it vs schedule
+	StartLagMS        int64   // how late the generator started it vs schedule
+	TopNorm           float64 // best normalised retrieval score, for tuning T offline
 }
 
 // Validate rejects rows the tables could not use.
@@ -84,6 +85,7 @@ func (r Row) record() []string {
 		r.Status, i(r.Retries), i(r.TokensIn), i(r.TokensOut), r.RetrievalSetting, r.AnswerGrade,
 		r.QuestionID, i64(r.QueueWaitMS), i64(r.ModelMS), i(r.QueueLenAtArrival),
 		i(r.LadderLevel), i(r.N429Seen), r.ErrorDetail, i64(r.StartLagMS),
+		strconv.FormatFloat(r.TopNorm, 'f', 4, 64),
 	}
 }
 

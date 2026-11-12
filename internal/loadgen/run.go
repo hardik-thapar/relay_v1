@@ -108,6 +108,6 @@ func (r Run) row(id string, job Job, scheduled time.Time, lag time.Duration, rep
 		TokensIn: rep.TokensIn, TokensOut: rep.TokensOut, RetrievalSetting: r.Setting, AnswerGrade: grade,
 		QuestionID: job.QuestionID, QueueWaitMS: rep.QueueWait.Milliseconds(), ModelMS: rep.ModelTime.Milliseconds(),
 		QueueLenAtArrival: rep.QueueLen, LadderLevel: int(rep.Level), N429Seen: rep.N429,
-		ErrorDetail: rep.Detail, StartLagMS: lag.Milliseconds(),
+		ErrorDetail: rep.Detail, StartLagMS: lag.Milliseconds(), TopNorm: rep.TopNorm,
 	}
 }
