@@ -36,6 +36,7 @@ func TestDecideLadder(t *testing.T) {
 		{"too tight even for lite: busy", useTokens(7000), 4 * time.Second, L2Busy, 3750 * time.Millisecond},
 		{"provider said wait 5s: busy with its hint", func(l *Limiter) { l.PauseFor(5 * time.Second) }, 3 * time.Second, L2Busy, 5 * time.Second},
 		{"day budget gone: retrieval only", func(l *Limiter) { l.Observe(dayGone) }, 10 * time.Second, L3RetrievalOnly, 0},
+		{"day gone and a longer 429 pause: still retrieval only", func(l *Limiter) { l.Observe(dayGone); l.PauseFor(87 * time.Second) }, 20 * time.Second, L3RetrievalOnly, 0},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

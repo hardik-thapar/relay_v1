@@ -134,6 +134,19 @@ func TestPauseFromRetryAfter(t *testing.T) {
 	reserve(t, l, 1)
 }
 
+// Regression (daily-exhausted run): a 429 with an 87 s hint plus an empty
+// day bucket (86.4 s refill) reported the pause, so admission said "busy"
+// instead of giving passages.
+func TestDayLimitIsTheReasonEvenUnderALongerPause(t *testing.T) {
+	l := NewLimiter(GroqFree, newClock().now)
+	l.Observe(llm.RateLimits{RemainingRequests: 0, RemainingTokens: -1})
+	l.PauseFor(87 * time.Second)
+	wait, why := l.Wait(1, 100)
+	if why != ByDay || wait != 87*time.Second {
+		t.Errorf("wait=%v why=%s, want 87s day", wait, why)
+	}
+}
+
 func TestLargerThanBucketNeverFits(t *testing.T) {
 	l := NewLimiter(GroqFree, newClock().now)
 	if _, wait, _ := l.TryReserve(9000); wait != bucket.Never {

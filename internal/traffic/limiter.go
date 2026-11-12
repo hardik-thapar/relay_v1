@@ -84,8 +84,15 @@ func (l *Limiter) wait(requests, tokens float64, waitFn func(*bucket.Bucket, flo
 	consider(l.pausedUntil.Sub(now), ByPause)
 	consider(waitFn(l.rpm, requests, now), ByMinute)
 	consider(waitFn(l.tpm, tokens, now), ByMinute)
-	consider(waitFn(l.rpd, requests, now), ByDay)
-	consider(waitFn(l.tpd, tokens, now), ByDay)
+	day := max(waitFn(l.rpd, requests, now), waitFn(l.tpd, tokens, now))
+	consider(day, ByDay)
+	// A day limit is the root cause whenever it blocks, even if a 429's
+	// pause is a little longer: the daily-exhausted run once answered
+	// "busy, try in 44 s" (L2) instead of giving passages (L3) because
+	// Groq's 87 s retry hint outlasted the 86.4 s day refill.
+	if day > 0 {
+		why = ByDay
+	}
 	return longest, why
 }
 
