@@ -49,7 +49,9 @@ func (b *Bucket) Wait(n float64, now time.Time) time.Duration {
 	if b.level >= n {
 		return 0
 	}
-	return time.Duration((n - b.level) / b.perSec * float64(time.Second))
+	// Round up: a caller sleeping exactly this long must find the units
+	// there, not wake a hair early to a float rounding error and spin.
+	return time.Duration(math.Ceil((n - b.level) / b.perSec * float64(time.Second)))
 }
 
 // Never is the wait for a request larger than the whole bucket.

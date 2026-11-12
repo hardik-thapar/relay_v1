@@ -49,6 +49,20 @@ func TestLowerToNeverRaises(t *testing.T) {
 	}
 }
 
+func TestWaitRoundsUp(t *testing.T) {
+	// 1000 / (8000/60) is 7.4999999… in floats; sleeping that long would
+	// wake just before the units exist.
+	b := New(8000, time.Minute, -1, t0)
+	b.Charge(5000, t0)
+	w := b.Wait(4000, t0)
+	if w != 7500*time.Millisecond {
+		t.Fatalf("wait = %v, want 7.5s", w)
+	}
+	if b.Wait(4000, t0.Add(w)) != 0 {
+		t.Error("units must be there after sleeping the returned wait")
+	}
+}
+
 func TestTooLargeNeverFits(t *testing.T) {
 	b := New(10, time.Second, -1, t0)
 	if b.Wait(11, t0) != Never {
