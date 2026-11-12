@@ -57,11 +57,11 @@ func TestEvalOnStandInGradesEveryQuestion(t *testing.T) {
 		t.Fatalf("%d rows, want 10 dev questions", len(rows))
 	}
 	for _, r := range rows {
-		if r["answer_grade"] == "" || r["scenario"] != "eval" || r["source"] != "stand-in" || r["retrieval_setting"] != "R1" {
+		if r["answer_grade"] == "" || r["scenario"] != "eval-dev" || r["source"] != "stand-in" || r["retrieval_setting"] != "R1" {
 			t.Errorf("row %v", r)
 		}
 	}
-	if !strings.Contains(out, "eval: 10 requests") {
+	if !strings.Contains(out, "eval-dev: 10 requests") {
 		t.Errorf("report: %s", out)
 	}
 }

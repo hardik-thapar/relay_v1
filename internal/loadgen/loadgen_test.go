@@ -151,6 +151,26 @@ func TestAnswersLogKeepsTextForReview(t *testing.T) {
 	}
 }
 
+// Regression: the eval loop runs Execute once per question; ids restarted
+// at 0000 each run and two questions in the same second shared an id.
+func TestRequestIDsUniqueAcrossRuns(t *testing.T) {
+	w, path := openWriter(t)
+	a := &slowAsker{d: time.Millisecond}
+	for i := 0; i < 5; i++ {
+		run := Run{Scenario: "eval", Source: "real", Setting: "R1", Patience: time.Second, Jobs: []Job{{QuestionID: "q", Question: "?"}}}
+		if _, err := run.Execute(context.Background(), a, w); err != nil {
+			t.Fatal(err)
+		}
+	}
+	seen := map[string]bool{}
+	for _, r := range readRows(t, path) {
+		if seen[r["request_id"]] {
+			t.Fatalf("duplicate request_id %s", r["request_id"])
+		}
+		seen[r["request_id"]] = true
+	}
+}
+
 func TestGradeOnlyWhenAsked(t *testing.T) {
 	sched := time.Now()
 	rep := pipeline.Reply{Status: "ok", Released: sched}

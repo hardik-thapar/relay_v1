@@ -7,6 +7,7 @@ import (
 	"io"
 	"sort"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"relay/internal/pipeline"
@@ -54,6 +55,10 @@ type answerLine struct {
 	Detail     string   `json:"detail"`
 }
 
+// seq numbers every request this process sends, across runs, so request
+// ids stay unique even when the eval loop starts a run per question.
+var seq atomic.Int64
+
 // Summary is what the run reports at the end.
 type Summary struct {
 	Sent   int
@@ -69,7 +74,7 @@ func (r Run) Execute(ctx context.Context, a Asker, w *results.Writer) (Summary, 
 	sort.SliceStable(jobs, func(i, j int) bool { return jobs[i].Offset < jobs[j].Offset })
 
 	start := time.Now().Add(20 * time.Millisecond) // a moment to set up
-	runID := start.UTC().Format("150405")
+	runID := start.UTC().Format("150405.000")
 	var (
 		wg     sync.WaitGroup
 		mu     sync.Mutex
@@ -91,7 +96,7 @@ func (r Run) Execute(ctx context.Context, a Asker, w *results.Writer) (Summary, 
 		maxLag = max(maxLag, lag)
 		mu.Unlock()
 
-		id := fmt.Sprintf("%s-%s-%s-%04d", r.Scenario, r.Setting, runID, i)
+		id := fmt.Sprintf("%s-%s-%s-%05d", r.Scenario, r.Setting, runID, seq.Add(1))
 		wg.Add(1)
 		go func() {
 			defer wg.Done()

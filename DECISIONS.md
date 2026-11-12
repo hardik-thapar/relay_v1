@@ -107,3 +107,14 @@ Changes to DESIGN.md after 2026-11-12 are recorded here, newest last. Each entry
 **T = 0.13:** between the off-topic question's top score (0.10–0.12) and the lowest answerable dev question (0.154). The model itself refused all three unanswerable dev questions, so T is a token saver for clearly off-topic questions, not the safety net; verify and the model's own refusal are. Raising T to 0.30 would have removed R2's two wrong answers on dev but refused three answerable ones, and is fitted to two questions.
 **Cost:** Ten dev questions decide this; the margin between R1 and R2 is noise-sized. Two of the "wrong" grades are grader strictness (see `results/eval_review.md`). Closed-loop eval latency is dominated by waiting for TPM refill (slowest dev answer: 31.2 s queue, 1.5 s model).
 **Caveat:** decided on placeholder questions; redo with the final set.
+
+## D16 — 2026-11-12 — Fixes found by the Phase 9 runs, and what was re-run
+
+**Bugs the runs exposed (each fixed with a regression test that fails on the old code):**
+1. *Verify refused correct quotes over one character.* The model writes U+2011 (non-breaking hyphen) in "Mamba‑2", "self‑supervised", "H‑Net"; the papers use plain hyphens. All three `refused_wrongly` rows of the first held-out run were correct answers. Every Unicode hyphen and dash now normalises to "-".
+2. *A 429 pause hid the daily limit.* In the daily-exhausted run Groq-shaped 87 s retry hints outlasted the 86.4 s day refill, the limiter named the pause as the reason, and two people got L2 "busy" instead of L3 passages. A blocking day limit is now always the reason.
+3. *Request ids were not unique.* The eval loop starts one run per question and ids restarted at 0000; two questions in the same second shared an id. Ids now use a process-wide counter.
+
+**Data handling (no measured value changed):** the first held-out run and the buggy daily-exhausted run are moved to `results/buggy/` as superseded. Eval rows are now labelled by split (`eval-dev`, `eval-heldout`); the 30 existing dev rows were relabelled from `eval` (they came from `-split dev`). The one duplicate id got a `-b` suffix.
+**Re-run:** held-out (real) and daily-exhausted (stand-in). **Not re-run:** the real steady run (budget: ~160K of ~200K daily tokens used); two of its answers (q06, q14) were refused by bug 1, and it is not graded.
+**Caveat:** bug 1 was found by reading held-out failures, so the re-run held-out half is no longer fully untouched by tuning. The fix is general (Unicode normalisation), not fitted to those questions.

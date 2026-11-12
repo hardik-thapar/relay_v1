@@ -68,6 +68,9 @@ func run(args []string, out io.Writer) error {
 	if *policyName == "naive" {
 		policy, scenarioName = traffic.NaivePolicy(), *name+"-naive"
 	}
+	if sc.eval && *split != "all" {
+		scenarioName += "-" + *split // tuning rows and reported rows never mix
+	}
 
 	setting, err := pipeline.SettingByName(*settingName)
 	if err != nil {
