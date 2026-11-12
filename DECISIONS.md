@@ -19,3 +19,15 @@ Changes to DESIGN.md after 2026-11-12 are recorded here, newest last. Each entry
 **Decision:** `cmd/` holds one binary per job (`relay`, `probe`, `standin`, `loadgen`). `internal/` holds the logic, one package per concern: `corpus`, `retrieve`, `llm`, `pipeline`, `traffic`, `results`. Python lives only in `scripts/`.
 **Why:** Binaries stay thin; every package can be tested without a network.
 **Cost:** None worth noting.
+
+## D4 — 2026-11-12 — Model: `openai/gpt-oss-20b`, low reasoning effort
+
+**Decision:** All real calls use `openai/gpt-oss-20b` with `reasoning_effort: low`.
+**Why:** Groq's rate-limit page lists the same limits for every candidate chat model (30 RPM, 1K RPD, 8K TPM, 200K TPD; to be confirmed by the probe), so limits don't separate them. The 20b is the faster of the two gpt-oss sizes, and latency is what we measure. Low effort keeps reasoning tokens, which count toward TPM, small.
+**Cost:** Possibly weaker answers than 120b. The eval will show whether citation quality suffers. Reasoning tokens are hidden but still delay the first visible token.
+
+## D5 — 2026-11-12 — A fifth error type: `ConnError`
+
+**Decision:** Besides `RateLimitError`, `ServerError`, `ClientError` and `TimeoutError` (DESIGN §4), a dropped connection is its own `ConnError`, carrying any partial text.
+**Why:** DESIGN §5 retries dropped connections, and the stand-in drops them on purpose. Folding them into `ServerError` would lose the difference between "provider said no" and "the wire broke", which the results need to tell apart.
+**Cost:** One more case in the retry policy.
