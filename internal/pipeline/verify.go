@@ -214,9 +214,13 @@ func sentences(text string) []string {
 }
 
 // typography maps characters the PDFs and the model write differently.
+// Every Unicode hyphen and dash maps to "-": the model writes U+2011
+// (non-breaking hyphen) in "Mamba‑2" where the paper has "Mamba-2", which
+// once refused three correct held-out answers.
 var typography = strings.NewReplacer(
-	"’", "'", "‘", "'", "“", `"`, "”", `"`,
-	"–", "-", "—", "-", "‐", "-", " ", " ",
+	"\u2019", "'", "\u2018", "'", "\u201C", `"`, "\u201D", `"`,
+	"\u2010", "-", "\u2011", "-", "\u2012", "-", "\u2013", "-", "\u2014", "-", "\u2212", "-",
+	"\u00A0", " ", "\u202F", " ",
 )
 
 // normalize collapses whitespace and unifies typography.

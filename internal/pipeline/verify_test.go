@@ -94,3 +94,14 @@ func TestKeepCitedDropsOnlyUncitedClaims(t *testing.T) {
 		t.Errorf("kept text should verify: %v", v.Problems)
 	}
 }
+
+// Held-out q16 on real Groq: the model wrote "Mamba‑2" with U+2011
+// (non-breaking hyphen); the paper has a plain hyphen. A correct answer
+// was refused until every Unicode dash was normalised.
+func TestNonBreakingHyphenMatchesPlainHyphen(t *testing.T) {
+	hnet := []corpus.Chunk{{ID: "2507.07955v2#21", Text: "Based on these insights, we employ Mamba-2 layers (Dao and Gu 2024) as the primary building blocks for the encoder and decoder networks."}}
+	answer := "H\u2011Net uses \"Mamba\u20112 layers (Dao and Gu 2024) as the primary building blocks\" [2507.07955v2#21]."
+	if v := Verify(answer, hnet); !v.OK {
+		t.Errorf("problems: %v", v.Problems)
+	}
+}
