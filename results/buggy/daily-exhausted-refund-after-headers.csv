@@ -1,0 +1,9 @@
+request_id,scenario,source,start_time,first_token_ms,total_ms,status,retries,tokens_in,tokens_out,retrieval_setting,answer_grade,question_id,queue_wait_ms,model_ms,queue_len_at_arrival,ladder_level,n_429_seen,error_detail,start_lag_ms,top_norm
+daily-exhausted-R1-092533.218-00001,daily-exhausted,stand-in,2026-11-12T09:25:50.85929618Z,4,4,ok,0,0,0,R1,,q10,0,0,0,0,0,top retrieval score 0.102 below threshold 0.130,1,0.1020
+daily-exhausted-R1-092533.218-00002,daily-exhausted,stand-in,2026-11-12T09:25:53.700187826Z,135,135,rate_limited,0,0,0,R1,,q13,0,132,0,0,1,"rate limited (retry after 1m6s): {""error"":{""code"":""rate_limit_exceeded"",""message"":""Rate limit reached for model `openai/gpt-oss-20b` on requests per day (RPD): Limit 1000, Requested 1. Please try again in 1m5.883s."",""type"":""requests""}}
+",1,0.5506
+daily-exhausted-R1-092533.218-00003,daily-exhausted,stand-in,2026-11-12T09:26:16.210404878Z,4,4,rate_limited,0,0,0,R1,,q19,0,0,0,2,0,would wait 43.621s (retry-after limit),1,0.3674
+daily-exhausted-R1-092533.218-00004,daily-exhausted,stand-in,2026-11-12T09:26:27.771611101Z,24,24,rate_limited,0,0,0,R1,,q09,0,0,0,2,0,would wait 32.041s (retry-after limit),6,0.2895
+daily-exhausted-R1-092533.218-00005,daily-exhausted,stand-in,2026-11-12T09:27:24.50390171Z,543,543,ok,0,1334,46,R1,,q08,0,530,0,0,0,verified (0 uncited sentences dropped),1,0.3684
+daily-exhausted-R1-092533.218-00006,daily-exhausted,stand-in,2026-11-12T09:27:50.096035264Z,7,7,rate_limited,0,0,0,R1,,q11,0,0,0,3,0,daily budget exhausted,1,0.3281
+daily-exhausted-R1-092533.218-00007,daily-exhausted,stand-in,2026-11-12T09:28:18.791508886Z,7,7,rate_limited,0,0,0,R1,,q18,0,0,0,3,0,daily budget exhausted,1,0.1464

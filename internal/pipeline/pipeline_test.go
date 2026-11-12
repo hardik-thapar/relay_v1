@@ -211,3 +211,23 @@ func TestAgainstStandIn(t *testing.T) {
 		t.Error("buffered release cannot come before the model's first token")
 	}
 }
+
+// Regression (daily-exhausted run): a 429 said "0 requests left today",
+// then refunding the refused call added one back, so the next person got
+// L2 "busy" instead of L3 passages.
+func TestDayGoneLearnedFrom429LeadsToPassages(t *testing.T) {
+	cfg := standin.Default()
+	cfg.StartRPD = 0
+	cfg.FirstTokenMS, cfg.RefusalMS = []float64{1}, 0
+	srv := httptest.NewServer(standin.New(cfg))
+	defer srv.Close()
+	p, _ := newPipeline(t, llm.NewHTTP(srv.URL, ""), traffic.GroqFree)
+
+	first := ask(p, question)
+	if first.Status != "rate_limited" || first.N429 != 1 {
+		t.Fatalf("first reply %+v", first)
+	}
+	if second := ask(p, question); second.Level != traffic.L3RetrievalOnly {
+		t.Errorf("second reply: level %v (%s), want L3 passages", second.Level, second.Detail)
+	}
+}

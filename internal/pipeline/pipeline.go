@@ -217,30 +217,34 @@ func (p *Pipeline) draft(ctx context.Context, msgs []llm.Message, rep *Reply) (s
 	return resp.Text, nil
 }
 
-// settle tells the limiter what happened. This is where provider headers
-// correct our counts and a 429's retry hint pauses everyone. Limits are
-// only believed when headers actually arrived.
+// settle tells the limiter what happened: first our own bookkeeping
+// (refund or settle the reservation), then the provider's headers, which
+// describe the state after this call and so must have the last word.
+// (Applying headers first once let a refund undo them: a 429 said "0
+// requests left today", the refund added one back, and the next person
+// got "busy" instead of the day-gone passages.) Limits are only believed
+// when headers actually arrived; a 429's retry hint pauses everyone.
 func (p *Pipeline) settle(res *traffic.Reservation, resp *llm.Response, err error) {
 	var rl *llm.RateLimitError
 	switch {
 	case errors.As(err, &rl):
+		res.Cancel() // refused calls did not run
 		if rl.Header != nil {
 			p.lim.Observe(rl.Limits)
 		}
 		if p.cfg.Retry.UseHint { // the naive policy ignores the hint entirely
 			p.lim.PauseFor(rl.RetryAfter)
 		}
-		res.Cancel() // refused calls did not run
 	case err == nil:
+		res.Finish(resp.TokensIn + resp.TokensOut)
 		if resp.Header != nil {
 			p.lim.Observe(resp.Limits)
 		}
-		res.Finish(resp.TokensIn + resp.TokensOut)
 	default:
+		res.Finish(0) // it was sent; actual tokens unknown
 		if resp != nil && resp.Header != nil {
 			p.lim.Observe(resp.Limits)
 		}
-		res.Finish(0) // it was sent; actual tokens unknown
 	}
 }
 

@@ -214,3 +214,13 @@ halved-naive-R1-071621-0009,halved-naive,stand-in,2026-11-12T07:19:53.869397694Z
 halved-naive-R1-071621-0010,halved-naive,stand-in,2026-11-12T07:19:56.139919551Z,378,378,ok,0,1323,41,R1,,q03,0,373,0,0,0,verified (0 uncited sentences dropped),2,0.2659
 halved-naive-R1-071621-0011,halved-naive,stand-in,2026-11-12T07:19:57.594312771Z,11799,11799,rate_limited,2,0,0,R1,,q02,9392,397,0,0,3,"rate limited (retry after 9s): {""error"":{""code"":""rate_limit_exceeded"",""message"":""Rate limit reached for model `openai/gpt-oss-20b` on tokens per minute (TPM): Limit 4000, Requested 1432. Please try again in 8.166s."",""type"":""tokens""}}
 ",0,0.3538
+eval-heldout-R1-092533.218-00001,eval-heldout,real,2026-11-12T09:25:33.218811Z,1336,1336,ok,0,1613,69,R1,correct,q11,0,1334,0,0,0,verified (1 uncited sentences dropped),1,0.3281
+eval-heldout-R1-092534.575-00002,eval-heldout,real,2026-11-12T09:25:34.575404Z,1013,1013,ok,0,1614,83,R1,correct,q12,0,1009,0,0,0,verified (1 uncited sentences dropped),1,0.5214
+eval-heldout-R1-092535.609-00003,eval-heldout,real,2026-11-12T09:25:35.609499Z,1439,1439,ok,0,2980,195,R1,correct,q13,0,1436,0,0,0,verified (1 uncited sentences dropped),1,0.5506
+eval-heldout-R1-092537.069-00004,eval-heldout,real,2026-11-12T09:25:37.069384Z,2968,2968,ok,0,1664,148,R1,correct,q14,2222,741,0,0,0,verified (2 uncited sentences dropped),0,0.3000
+eval-heldout-R1-092540.058-00005,eval-heldout,real,2026-11-12T09:25:40.058641Z,14121,14121,ok,0,1855,127,R1,wrong,q15,12345,1773,0,0,0,verified (2 uncited sentences dropped),0,0.3190
+eval-heldout-R1-092554.200-00006,eval-heldout,real,2026-11-12T09:25:54.200219Z,14452,14452,ok,0,1581,144,R1,wrong,q16,13206,1240,0,0,0,verified (1 uncited sentences dropped),1,0.3150
+eval-heldout-R1-092608.673-00007,eval-heldout,real,2026-11-12T09:26:08.67304Z,12785,12785,ok,0,1613,172,R1,wrong,q17,11934,833,0,0,0,verified (2 uncited sentences dropped),1,0.5734
+eval-heldout-R1-092621.479-00008,eval-heldout,real,2026-11-12T09:26:21.479907Z,12446,12446,ok,0,1624,36,R1,refused_correctly,q18,11926,489,0,0,0,model found no answer in the chunks,3,0.1464
+eval-heldout-R1-092633.948-00009,eval-heldout,real,2026-11-12T09:26:33.948332Z,25718,25718,ok,0,3167,177,R1,wrong,q19,24479,1220,0,0,0,verified (1 uncited sentences dropped),1,0.3674
+eval-heldout-R1-092659.688-00010,eval-heldout,real,2026-11-12T09:26:59.688932Z,9095,9095,ok,0,1213,47,R1,refused_correctly,q20,8527,560,0,0,0,model found no answer in the chunks,1,0.2170
