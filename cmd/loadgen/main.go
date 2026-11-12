@@ -41,7 +41,7 @@ func run(args []string, out io.Writer) error {
 	fs := flag.NewFlagSet("loadgen", flag.ContinueOnError)
 	name := fs.String("scenario", "", "eval, steady, burst, overload, halved, daily-exhausted, smoke")
 	source := fs.String("source", "stand-in", "stand-in or real")
-	settingName := fs.String("setting", "R2", "retrieval setting")
+	settingName := fs.String("setting", "R1", "retrieval setting (D15)")
 	policyName := fs.String("policy", "default", "retry policy: default or naive")
 	split := fs.String("split", "all", "eval only: dev, heldout or all")
 	threshold := fs.Float64("t", pipeline.DefaultConfig().Threshold, "refusal threshold on normalised BM25")

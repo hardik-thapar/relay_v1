@@ -54,7 +54,7 @@ func DefaultConfig() Config {
 	return Config{
 		Model:             "openai/gpt-oss-20b",
 		MaxOutput:         600,
-		Threshold:         0.2,
+		Threshold:         0.13, // D15: tuned on the dev half
 		LiteK:             2,
 		FirstTokenTimeout: 3 * time.Second, // probe max under burst was 1.26 s
 		Retry:             traffic.DefaultPolicy(),

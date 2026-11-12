@@ -30,7 +30,7 @@ func main() {
 func run(args []string, out io.Writer) error {
 	fs := flag.NewFlagSet("relay", flag.ContinueOnError)
 	q := fs.String("q", "", "question")
-	settingName := fs.String("setting", "R2", "retrieval setting: R1, R2 or R3")
+	settingName := fs.String("setting", "R1", "retrieval setting: R1, R2 or R3 (D15)")
 	base := fs.String("base", groqURL, "model API base URL (Groq or the stand-in)")
 	data := fs.String("data", "data/parsed", "parsed papers directory")
 	threshold := fs.Float64("t", pipeline.DefaultConfig().Threshold, "refusal threshold on normalised BM25")
