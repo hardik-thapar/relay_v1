@@ -86,3 +86,16 @@ Changes to DESIGN.md after 2026-11-12 are recorded here, newest last. Each entry
 - Quotes are compared case-insensitively, and a quote joining passages with "…" is checked piece by piece. Real Groq answers lowercased a quote's first word and joined two passages with an ellipsis; both are normal quoting and do not change what the source says.
 
 **Cost:** Dropping sentences can leave a terse answer of quotes. Case-insensitive matching is slightly looser than "word for word". These were tuned on three real answers; the eval measures the false-refusal rate properly.
+
+## D14 — 2026-11-12 — Load generator and scenarios
+
+**Decisions:**
+- Arrivals are a seeded Poisson process per phase (exponential gaps), not evenly spaced: real traffic is bursty even at a steady average. Bursts are N requests at one instant.
+- Open loop: each request starts at its scheduled time in its own goroutine; latency runs from the scheduled start; every row records `start_lag_ms` (good-to-have #2, an extra column after the brief's).
+- Rates follow the probe: TPM binds at ~4 answers/minute, so steady = 3/min, overload = 12/min. Burst = steady plus 20 at once at 1:00. "Halved" halves the stand-in's RPM/TPM *without telling our limiter*, which must learn from headers and 429s. "Daily-exhausted" starts the stand-in's RPD at 0 with the 86.4 s trickle.
+- The naive-retry run is any scenario with `-policy naive`, so the comparison holds arrivals, seed and provider fixed. The naive policy also skips the limiter-wide pause on a 429 (otherwise our limiter would quietly make it polite).
+- Eval runs the questions closed loop, one at a time, so Table 3 latencies are the pipeline's, not a queue's. Grading: every key phrase present and a citation from the expected paper.
+- Only `eval` and `steady` may run against real Groq; the rest are refused on `-source real` to protect the shared daily budget.
+- First token for timeouts/errors is empty: the person saw no answer.
+
+**Cost:** Patience is a fixed 20 s for everyone (a guess, DESIGN §5); the runs show what it costs. Stand-in answer grades are meaningless (D9).

@@ -227,7 +227,9 @@ func (p *Pipeline) settle(res *traffic.Reservation, resp *llm.Response, err erro
 		if rl.Header != nil {
 			p.lim.Observe(rl.Limits)
 		}
-		p.lim.PauseFor(rl.RetryAfter)
+		if p.cfg.Retry.UseHint { // the naive policy ignores the hint entirely
+			p.lim.PauseFor(rl.RetryAfter)
+		}
 		res.Cancel() // refused calls did not run
 	case err == nil:
 		if resp.Header != nil {
