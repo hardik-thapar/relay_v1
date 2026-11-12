@@ -73,12 +73,14 @@ In ~20 ms, zero tokens: *"Our daily model budget is used up, so I can't write an
 
 ## 8. What I'm unsure about, what I left out, what I learned
 
-**Least certain:** 20 s patience; at 5 s most queued answers under load are lost and the ladder must step down earlier. **Not built:** a re-ranker; a check that a cited paper is the one the question names (would have refused q19). **[YOU: one thing new to you, in your words.]**
+**Least certain:** 20 s patience; at 5 s most queued answers under load are lost and the ladder must step down earlier. **Not built:** a re-ranker; a check that a cited paper is the one the question names (would have refused q19). **New to me: rate limits are buckets that refill, not counters that reset.** I expected "1,000 requests per day" to reset at midnight. The probe showed `x-ratelimit-reset-requests` growing by 86.4 s with every call: 86,400 s ÷ 1,000. The allowance refills continuously, so "daily budget exhausted" is not a cliff: one request comes back every 86.4 s, and both the limiter and the stand-in had to be built around that.
 
 ## Your feedback on Vaani
 
-**[YOU: what stood out, what confused you, one change.]**
+I have followed Vaani's journey for about a year, since I first reached out to Tushar; his work has inspired me since. With Vaani's launch as a product I enjoyed going through the docs: the number of features is remarkable. Two stood out: interruption handling, which was new to me, and adding ambient background sound. **[YOU: one thing that confused you, and one thing you would change.]**
 
 ## How I worked with the assistant
 
-**[YOU: half a page; attach the real history.]**
+I started by sitting with Claude to understand what we were building, then did the system design myself and wrote `DESIGN.md`, where every decision was taken after careful consideration. With the build plan ready, building it was a matter of time. I hold one rule: never ship a line of code I don't understand. AI is good when it raises your speed and efficiency, not when it makes your decisions, and that is where I spent most of my effort in this project: the design and architecture. Most of the code was produced by Claude, but I went through every file, and from the very beginning every file and function has its own tests; each new feature ran the full suite (`gofmt`, `go vet`, tests with the race detector) before its commit, so we never broke something or faked it.
+
+**Prompts that mattered:** giving it my design with one rule, *give less, never something wrong*; "run the probe", which turned assumed limits into measured ones; and "fix and rerun", which found three more bugs instead of shipping the first numbers. **Caught:** verify let an uncited sentence from the model's own knowledge through; all tests passed, and I caught it on the first real Groq answer. Later its first fix for a "busy instead of passages" bug was not the cause; a test reproducing the run found the real one. **Overruled:** it recommended writing my own questions before any eval; I chose to run with placeholders to keep moving, at the cost of redoing the graded runs with my own questions. **Distinctly mine:** the one-rule design, a single model call with rule-based rewriting, the zero-token L3 rung, the open-loop generator with its lag check, and measuring limits instead of trusting the docs.
