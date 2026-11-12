@@ -29,3 +29,198 @@ eval-R3-071234-0000,eval,real,2026-11-12T07:12:34.186571Z,9795,9795,ok,0,1143,82
 eval-R3-071244-0000,eval,real,2026-11-12T07:12:44.001895Z,8961,8961,ok,0,1071,46,R3,refused_correctly,q08,8418,540,0,0,0,model found no answer in the chunks,0,0.3648
 eval-R3-071252-0000,eval,real,2026-11-12T07:12:52.983272Z,8779,8779,ok,0,1516,41,R3,refused_correctly,q09,8293,482,0,0,0,model found no answer in the chunks,1,0.3750
 eval-R3-071301-0000,eval,real,2026-11-12T07:13:01.782796Z,11270,11270,ok,0,1085,50,R3,refused_correctly,q10,10782,485,0,0,0,model found no answer in the chunks,1,0.1197
+eval-R1-071616-0000,eval,real,2026-11-12T07:16:16.035368Z,704,704,ok,0,1613,99,R1,correct,q11,0,701,0,0,0,verified (1 uncited sentences dropped),2,0.3281
+eval-R1-071616-0000,eval,real,2026-11-12T07:16:16.760856Z,1290,1290,ok,0,1614,94,R1,correct,q12,0,1288,0,0,0,verified (0 uncited sentences dropped),0,0.5214
+eval-R1-071618-0000,eval,real,2026-11-12T07:16:18.071164Z,604,604,ok,0,1437,93,R1,correct,q13,0,601,0,0,0,verified (1 uncited sentences dropped),1,0.5506
+eval-R1-071618-0000,eval,real,2026-11-12T07:16:18.695786Z,6199,6199,ok,0,3467,264,R1,refused_wrongly,q14,4503,1693,0,0,0,"verify failed: the quote ""we distill semantic information from a self‑supervised model (WavLM8 …) into the first level of the RVQ"" is not word for word in [2410.00037v1#45]; no exact quote of at least 3 words supports the answer",1,0.3000
+eval-R1-071624-0000,eval,real,2026-11-12T07:16:24.915249Z,12977,12977,ok,0,1855,116,R1,wrong,q15,12261,713,0,0,0,verified (2 uncited sentences dropped),0,0.3190
+eval-R1-071637-0000,eval,real,2026-11-12T07:16:37.913193Z,29909,29909,ok,0,3383,330,R1,refused_wrongly,q16,26681,3222,0,0,0,"verify failed: the quote ""Based on these insights, we employ Mamba‑2 layers (Dao and Gu 2024) as the primary building blocks for the encoder and decoder networks"" is not word for word in [2507.07955v2#21]; no exact quote of at least 3 words supports the answer",1,0.3150
+eval-R1-071707-0000,eval,real,2026-11-12T07:17:07.843223Z,27726,27726,ok,0,3421,389,R1,refused_wrongly,q17,26286,1434,0,0,0,"verify failed: the quote ""the modular design also allows straightforward substitution with alternative architectures (e.g., a state space model, hybrid, or H‑Net itself)"" is not word for word in [2507.07955v2#22]",2,0.5734
+eval-R1-071735-0000,eval,real,2026-11-12T07:17:35.590436Z,13060,13060,ok,0,1624,37,R1,refused_correctly,q18,12526,529,0,0,0,model found no answer in the chunks,2,0.1464
+eval-R1-071748-0000,eval,real,2026-11-12T07:17:48.67137Z,25536,25536,ok,0,3167,172,R1,refused_correctly,q19,24610,919,0,0,0,verify failed: the answer is empty,2,0.3674
+eval-R1-071814-0000,eval,real,2026-11-12T07:18:14.228474Z,9851,9851,ok,0,1213,47,R1,refused_correctly,q20,8665,1182,0,0,0,model found no answer in the chunks,2,0.2170
+steady-R1-071824-0000,steady,real,2026-11-12T07:18:30.933539383Z,682,682,ok,0,1613,99,R1,,q11,0,677,0,0,0,verified (1 uncited sentences dropped),0,0.3281
+steady-R1-071824-0001,steady,real,2026-11-12T07:18:32.591029745Z,3989,3989,ok,0,1632,102,R1,,q07,3430,553,0,0,0,verified (1 uncited sentences dropped),2,0.3828
+steady-R1-071824-0002,steady,real,2026-11-12T07:18:56.339911671Z,368,368,ok,0,1974,40,R1,,q09,0,365,0,0,0,model found no answer in the chunks,0,0.2895
+steady-R1-071824-0003,steady,real,2026-11-12T07:19:23.483108302Z,2171,2171,ok,0,3398,378,R1,,q17,0,2166,0,0,0,verified (1 uncited sentences dropped),0,0.5734
+steady-R1-071824-0004,steady,real,2026-11-12T07:19:28.534305832Z,5789,5789,ok,0,1624,36,R1,,q18,5244,541,0,0,0,model found no answer in the chunks,1,0.1464
+steady-R1-071824-0006,steady,real,2026-11-12T07:19:42.399237813Z,5,5,ok,0,0,0,R1,,q10,0,0,0,0,0,top retrieval score 0.102 below threshold 0.130,2,0.1020
+steady-R1-071824-0005,steady,real,2026-11-12T07:19:34.143905128Z,12274,12274,ok,0,1213,47,R1,,q20,11868,400,0,0,0,model found no answer in the chunks,2,0.2170
+steady-R1-071824-0007,steady,real,2026-11-12T07:20:11.446224516Z,618,618,ok,0,1836,40,R1,,q02,0,608,0,0,0,model found no answer in the chunks,4,0.3538
+steady-R1-071824-0008,steady,real,2026-11-12T07:21:07.723172572Z,4600,4600,ok,1,3742,302,R1,,q06,0,4476,0,0,0,"verify failed: the quote ""interpolated representations using the router’s outputs"" is not word for word in [2507.07955v2#32]; no exact quote of at least 3 words supports the answer",3,0.3227
+steady-R1-071824-0009,steady,real,2026-11-12T07:21:55.04007564Z,2249,2249,ok,0,3467,289,R1,,q14,0,2233,0,0,0,"verify failed: the quote ""we distill semantic information from a self‑supervised model (WavLM8 (Chen et al., 2022) in our case) into the first level of the RVQ"" is not word for word in [2410.00037v1#45]; no exact quote of at least 3 words supports the answer",1,0.3000
+steady-R1-071824-0010,steady,real,2026-11-12T07:22:09.263224573Z,458,458,ok,0,1725,38,R1,,q08,0,453,0,0,0,model found no answer in the chunks,2,0.3684
+steady-R1-071824-0011,steady,real,2026-11-12T07:22:12.928506506Z,,9606,timeout,2,0,0,R1,,q12,0,9003,0,0,0,timeout before first_token,2,0.5214
+steady-R1-071824-0012,steady,real,2026-11-12T07:22:28.181447812Z,1815,1815,ok,0,1634,117,R1,,q03,0,1808,0,0,0,verified (1 uncited sentences dropped),2,0.2659
+steady-R1-071824-0013,steady,real,2026-11-12T07:22:46.115832033Z,,3594,error,2,0,0,R1,,q16,0,3019,0,0,0,"connection: Post ""https://api.groq.com/openai/v1/chat/completions"": dial tcp: lookup api.groq.com: no such host",0,0.3150
+steady-R1-071824-0014,steady,real,2026-11-12T07:22:51.462579213Z,,337,error,2,0,0,R1,,q19,0,3,0,0,0,"connection: Post ""https://api.groq.com/openai/v1/chat/completions"": dial tcp: lookup api.groq.com: no such host",1,0.3674
+steady-R1-071824-0015,steady,real,2026-11-12T07:22:58.930760148Z,2607,2607,ok,0,3976,264,R1,,q05,0,2585,0,0,0,verified (3 uncited sentences dropped),5,0.1543
+steady-R1-071621-0000,steady,stand-in,2026-11-12T07:16:38.73306518Z,5,5,ok,0,0,0,R1,,q10,0,0,0,0,0,top retrieval score 0.102 below threshold 0.130,1,0.1020
+steady-R1-071621-0001,steady,stand-in,2026-11-12T07:16:41.573956826Z,523,523,ok,0,1282,42,R1,,q13,0,518,0,0,0,verified (0 uncited sentences dropped),2,0.5506
+steady-R1-071621-0002,steady,stand-in,2026-11-12T07:17:04.084173878Z,539,539,ok,0,1461,47,R1,,q19,0,534,0,0,0,verified (0 uncited sentences dropped),1,0.3674
+steady-R1-071621-0003,steady,stand-in,2026-11-12T07:17:15.645380101Z,516,516,ok,0,1423,41,R1,,q09,0,511,0,0,0,verified (0 uncited sentences dropped),2,0.2895
+steady-R1-071621-0004,steady,stand-in,2026-11-12T07:18:12.37767071Z,418,418,ok,0,1334,46,R1,,q08,0,411,0,0,0,verified (0 uncited sentences dropped),2,0.3684
+steady-R1-071621-0005,steady,stand-in,2026-11-12T07:18:37.969804264Z,439,439,ok,0,1239,44,R1,,q11,0,434,0,0,0,verified (0 uncited sentences dropped),2,0.3281
+steady-R1-071621-0006,steady,stand-in,2026-11-12T07:19:06.665277886Z,521,521,ok,0,1394,44,R1,,q18,0,513,0,0,0,verified (0 uncited sentences dropped),2,0.1464
+steady-R1-071621-0007,steady,stand-in,2026-11-12T07:19:28.095965706Z,447,447,ok,0,1430,45,R1,,q04,0,442,0,0,0,verified (0 uncited sentences dropped),2,0.2680
+steady-R1-071621-0008,steady,stand-in,2026-11-12T07:19:41.829061919Z,688,688,ok,0,1453,41,R1,,q05,0,518,0,0,0,verified (0 uncited sentences dropped),102,0.1543
+steady-R1-071621-0009,steady,stand-in,2026-11-12T07:19:53.865529694Z,448,448,ok,0,1471,43,R1,,q17,0,444,0,0,0,verified (0 uncited sentences dropped),2,0.5734
+steady-R1-071621-0010,steady,stand-in,2026-11-12T07:19:56.136051551Z,375,375,ok,0,1323,41,R1,,q03,0,372,0,0,0,verified (0 uncited sentences dropped),1,0.2659
+steady-R1-071621-0011,steady,stand-in,2026-11-12T07:19:57.590444771Z,520,520,ok,0,1432,46,R1,,q02,0,516,0,0,0,verified (0 uncited sentences dropped),2,0.3538
+steady-R1-071621-0012,steady,stand-in,2026-11-12T07:20:33.202570767Z,396,396,ok,0,1561,42,R1,,q06,0,388,0,0,0,verified (0 uncited sentences dropped),2,0.3227
+steady-R1-071621-0013,steady,stand-in,2026-11-12T07:21:12.544007953Z,449,449,ok,0,1383,40,R1,,q07,0,440,0,0,0,verified (0 uncited sentences dropped),2,0.3828
+steady-R1-071621-0014,steady,stand-in,2026-11-12T07:21:15.471074328Z,393,393,ok,0,1031,42,R1,,q20,0,391,0,0,0,verified (0 uncited sentences dropped),0,0.2170
+burst-R1-071621-0000,burst,stand-in,2026-11-12T07:16:38.71935618Z,4,4,ok,0,0,0,R1,,q10,0,0,0,0,0,top retrieval score 0.102 below threshold 0.130,0,0.1020
+burst-R1-071621-0001,burst,stand-in,2026-11-12T07:16:41.560247826Z,523,523,ok,0,1282,42,R1,,q13,0,518,0,0,0,verified (0 uncited sentences dropped),2,0.5506
+burst-R1-071621-0002,burst,stand-in,2026-11-12T07:17:04.070464878Z,536,536,ok,0,1461,47,R1,,q19,0,531,0,0,0,verified (0 uncited sentences dropped),2,0.3674
+burst-R1-071621-0003,burst,stand-in,2026-11-12T07:17:15.631671101Z,517,517,ok,0,1423,41,R1,,q09,0,513,0,0,0,verified (0 uncited sentences dropped),0,0.2895
+burst-R1-071621-0020,burst,stand-in,2026-11-12T07:17:21.078646Z,11,11,rate_limited,0,0,0,R1,,q05,0,0,2,2,0,would wait 25.453s (minute limit),1,0.1543
+burst-R1-071621-0021,burst,stand-in,2026-11-12T07:17:21.078646Z,11,11,rate_limited,0,0,0,R1,,q17,0,0,2,2,0,would wait 25.122s (minute limit),1,0.5734
+burst-R1-071621-0016,burst,stand-in,2026-11-12T07:17:21.078646Z,11,11,rate_limited,0,0,0,R1,,q08,0,0,2,2,0,would wait 25.265s (minute limit),1,0.3684
+burst-R1-071621-0019,burst,stand-in,2026-11-12T07:17:21.078646Z,11,11,rate_limited,0,0,0,R1,,q04,0,0,2,2,0,would wait 25.272s (minute limit),1,0.2680
+burst-R1-071621-0006,burst,stand-in,2026-11-12T07:17:21.078646Z,12,12,rate_limited,0,0,0,R1,,q20,0,0,2,2,0,would wait 24.964s (minute limit),1,0.2170
+burst-R1-071621-0014,burst,stand-in,2026-11-12T07:17:21.078646Z,12,12,rate_limited,0,0,0,R1,,q19,0,0,2,2,0,would wait 25.433s (minute limit),1,0.3674
+burst-R1-071621-0013,burst,stand-in,2026-11-12T07:17:21.078646Z,9,9,rate_limited,0,0,0,R1,,q13,0,0,2,2,0,would wait 24.24s (minute limit),1,0.5506
+burst-R1-071621-0018,burst,stand-in,2026-11-12T07:17:21.078646Z,12,12,rate_limited,0,0,0,R1,,q18,0,0,2,2,0,would wait 25.444s (minute limit),1,0.1464
+burst-R1-071621-0017,burst,stand-in,2026-11-12T07:17:21.078646Z,14,14,rate_limited,0,0,0,R1,,q11,0,0,2,2,0,would wait 24.392s (minute limit),1,0.3281
+burst-R1-071621-0012,burst,stand-in,2026-11-12T07:17:21.078646Z,14,14,ok,0,0,0,R1,,q10,0,0,0,0,0,top retrieval score 0.102 below threshold 0.130,1,0.1020
+burst-R1-071621-0008,burst,stand-in,2026-11-12T07:17:21.078646Z,15,15,rate_limited,0,0,0,R1,,q14,0,0,2,2,0,would wait 25.539s (minute limit),1,0.3000
+burst-R1-071621-0011,burst,stand-in,2026-11-12T07:17:21.078646Z,15,15,rate_limited,0,0,0,R1,,q16,0,0,2,2,0,would wait 25.366s (minute limit),1,0.3150
+burst-R1-071621-0010,burst,stand-in,2026-11-12T07:17:21.078646Z,15,15,rate_limited,0,0,0,R1,,q12,0,0,2,2,0,would wait 24.361s (minute limit),1,0.5214
+burst-R1-071621-0022,burst,stand-in,2026-11-12T07:17:21.078646Z,15,15,rate_limited,0,0,0,R1,,q03,0,0,2,2,0,would wait 25.051s (minute limit),1,0.2659
+burst-R1-071621-0015,burst,stand-in,2026-11-12T07:17:21.078646Z,15,15,rate_limited,0,0,0,R1,,q09,0,0,2,2,0,would wait 25.374s (minute limit),1,0.2895
+burst-R1-071621-0023,burst,stand-in,2026-11-12T07:17:21.078646Z,427,427,ok,0,1432,46,R1,,q02,0,424,0,0,0,verified (0 uncited sentences dropped),1,0.3538
+burst-R1-071621-0005,burst,stand-in,2026-11-12T07:17:21.078646Z,475,475,ok,0,1383,40,R1,,q07,0,472,0,0,0,verified (0 uncited sentences dropped),1,0.3828
+burst-R1-071621-0004,burst,stand-in,2026-11-12T07:17:21.078646Z,581,581,ok,0,1561,42,R1,,q06,0,578,0,0,0,verified (0 uncited sentences dropped),1,0.3227
+burst-R1-071621-0007,burst,stand-in,2026-11-12T07:17:21.078646Z,7479,7479,ok,0,593,45,R1,,q01,7067,403,1,1,0,verified (0 uncited sentences dropped),1,0.4977
+burst-R1-071621-0009,burst,stand-in,2026-11-12T07:17:21.078646Z,7605,7605,ok,0,1429,45,R1,,q15,7072,528,0,0,0,verified (0 uncited sentences dropped),1,0.3190
+burst-R1-071621-0024,burst,stand-in,2026-11-12T07:18:12.36396171Z,449,449,ok,0,1334,46,R1,,q08,0,441,0,0,0,verified (0 uncited sentences dropped),1,0.3684
+burst-R1-071621-0025,burst,stand-in,2026-11-12T07:18:37.956095264Z,376,376,ok,0,1239,44,R1,,q11,0,370,0,0,0,verified (0 uncited sentences dropped),2,0.3281
+burst-R1-071621-0026,burst,stand-in,2026-11-12T07:19:06.651568886Z,518,518,ok,0,1394,44,R1,,q18,0,514,0,0,0,verified (0 uncited sentences dropped),0,0.1464
+burst-R1-071621-0027,burst,stand-in,2026-11-12T07:19:28.082256706Z,390,390,ok,0,1430,45,R1,,q04,0,383,0,0,0,verified (0 uncited sentences dropped),1,0.2680
+burst-R1-071621-0028,burst,stand-in,2026-11-12T07:19:41.815352919Z,653,653,ok,0,1453,41,R1,,q05,0,469,0,0,0,verified (0 uncited sentences dropped),133,0.1543
+burst-R1-071621-0029,burst,stand-in,2026-11-12T07:19:53.851820694Z,416,416,ok,0,1471,43,R1,,q17,0,413,0,0,0,verified (0 uncited sentences dropped),0,0.5734
+burst-R1-071621-0030,burst,stand-in,2026-11-12T07:19:56.122342551Z,380,380,ok,0,1323,41,R1,,q03,0,373,0,0,0,verified (0 uncited sentences dropped),2,0.2659
+burst-R1-071621-0031,burst,stand-in,2026-11-12T07:19:57.576735771Z,534,534,ok,0,1432,46,R1,,q02,0,529,0,0,0,verified (0 uncited sentences dropped),2,0.3538
+overload-R1-071621-0000,overload,stand-in,2026-11-12T07:16:25.499834545Z,2,2,ok,0,0,0,R1,,q10,0,0,0,0,0,top retrieval score 0.102 below threshold 0.130,1,0.1020
+overload-R1-071621-0001,overload,stand-in,2026-11-12T07:16:26.210057456Z,523,523,ok,0,1282,42,R1,,q13,0,520,0,0,0,verified (0 uncited sentences dropped),2,0.5506
+overload-R1-071621-0002,overload,stand-in,2026-11-12T07:16:31.837611719Z,535,535,ok,0,1461,47,R1,,q19,0,533,0,0,0,verified (0 uncited sentences dropped),1,0.3674
+overload-R1-071621-0003,overload,stand-in,2026-11-12T07:16:34.727913274Z,515,515,ok,0,1423,41,R1,,q09,0,512,0,0,0,verified (0 uncited sentences dropped),1,0.2895
+overload-R1-071621-0004,overload,stand-in,2026-11-12T07:16:48.910985926Z,414,414,ok,0,1334,46,R1,,q08,0,409,0,0,0,verified (0 uncited sentences dropped),2,0.3684
+overload-R1-071621-0005,overload,stand-in,2026-11-12T07:16:55.309019314Z,437,437,ok,0,1239,44,R1,,q11,0,433,0,0,0,verified (0 uncited sentences dropped),0,0.3281
+overload-R1-071621-0006,overload,stand-in,2026-11-12T07:17:02.482887719Z,518,518,ok,0,1394,44,R1,,q18,0,514,0,0,0,verified (0 uncited sentences dropped),1,0.1464
+overload-R1-071621-0007,overload,stand-in,2026-11-12T07:17:07.840559674Z,448,448,ok,0,1430,45,R1,,q04,0,444,0,0,0,verified (0 uncited sentences dropped),2,0.2680
+overload-R1-071621-0008,overload,stand-in,2026-11-12T07:17:11.273833727Z,505,505,ok,0,1453,41,R1,,q05,0,502,0,0,0,verified (0 uncited sentences dropped),0,0.1543
+overload-R1-071621-0009,overload,stand-in,2026-11-12T07:17:14.28295067Z,446,446,ok,0,1471,43,R1,,q17,0,444,0,0,0,verified (0 uncited sentences dropped),0,0.5734
+overload-R1-071621-0010,overload,stand-in,2026-11-12T07:17:14.850581134Z,2758,2758,ok,0,1323,41,R1,,q03,2380,372,0,0,0,verified (0 uncited sentences dropped),2,0.2659
+overload-R1-071621-0011,overload,stand-in,2026-11-12T07:17:15.214179439Z,13589,13589,ok,0,1432,46,R1,,q02,13067,517,1,0,0,verified (0 uncited sentences dropped),2,0.3538
+overload-R1-071621-0015,overload,stand-in,2026-11-12T07:17:36.410829679Z,2,2,rate_limited,0,0,0,R1,,q01,0,0,3,2,0,would wait 33.405s (minute limit),2,0.4977
+overload-R1-071621-0016,overload,stand-in,2026-11-12T07:17:38.187646051Z,2,2,rate_limited,0,0,0,R1,,q14,0,0,3,2,0,would wait 32.212s (minute limit),2,0.3000
+overload-R1-071621-0014,overload,stand-in,2026-11-12T07:17:34.684336827Z,5876,5876,ok,0,1031,42,R1,,q20,5449,423,1,0,0,verified (0 uncited sentences dropped),2,0.2170
+overload-R1-071621-0012,overload,stand-in,2026-11-12T07:17:24.117210938Z,,20001,timeout,1,0,0,R1,,q06,19182,321,1,1,0,context deadline exceeded,1,0.3227
+overload-R1-071621-0017,overload,stand-in,2026-11-12T07:17:40.06366653Z,4429,4429,ok,0,641,45,R1,,q15,4051,374,2,1,0,verified (0 uncited sentences dropped),2,0.3190
+overload-R1-071621-0013,overload,stand-in,2026-11-12T07:17:33.952570234Z,19286,19286,ok,1,1383,40,R1,,q07,17567,508,1,0,1,verified (0 uncited sentences dropped),2,0.3828
+overload-R1-071621-0020,overload,stand-in,2026-11-12T07:18:06.232756932Z,4,4,ok,0,0,0,R1,,q10,0,0,0,0,0,top retrieval score 0.102 below threshold 0.130,2,0.1020
+overload-R1-071621-0018,overload,stand-in,2026-11-12T07:17:51.941658034Z,14686,14686,ok,0,1301,38,R1,,q12,14166,514,1,0,0,verified (0 uncited sentences dropped),2,0.5214
+overload-R1-071621-0022,overload,stand-in,2026-11-12T07:18:13.036789379Z,5,5,rate_limited,0,0,0,R1,,q19,0,0,2,2,0,would wait 24.474s (minute limit),1,0.3674
+overload-R1-071621-0019,overload,stand-in,2026-11-12T07:18:06.109613216Z,8393,8393,ok,0,1437,48,R1,,q16,7868,520,1,0,0,verified (0 uncited sentences dropped),1,0.3150
+overload-R1-071621-0024,overload,stand-in,2026-11-12T07:18:18.051921676Z,4,4,rate_limited,0,0,0,R1,,q08,0,0,2,2,0,would wait 24.522s (minute limit),2,0.3684
+overload-R1-071621-0025,overload,stand-in,2026-11-12T07:18:22.572037561Z,4,4,rate_limited,0,0,0,R1,,q11,0,0,2,2,0,would wait 19.132s (minute limit),2,0.3281
+overload-R1-071621-0026,overload,stand-in,2026-11-12T07:18:23.216199696Z,3,3,rate_limited,0,0,0,R1,,q18,0,0,2,2,0,would wait 19.538s (minute limit),2,0.1464
+overload-R1-071621-0021,overload,stand-in,2026-11-12T07:18:12.810451851Z,11654,11654,ok,0,1282,42,R1,,q13,11144,506,1,0,0,verified (0 uncited sentences dropped),2,0.5506
+overload-R1-071621-0023,overload,stand-in,2026-11-12T07:18:16.215675476Z,17585,17585,ok,0,649,41,R1,,q09,17107,474,1,1,0,verified (0 uncited sentences dropped),1,0.2895
+overload-R1-071621-0029,overload,stand-in,2026-11-12T07:18:39.346621315Z,4,4,rate_limited,0,0,0,R1,,q17,0,0,2,2,0,would wait 25.33s (minute limit),2,0.5734
+overload-R1-071621-0027,overload,stand-in,2026-11-12T07:18:35.920906812Z,4753,4753,ok,0,1430,45,R1,,q04,4246,502,0,0,0,verified (0 uncited sentences dropped),2,0.2680
+overload-R1-071621-0031,overload,stand-in,2026-11-12T07:18:45.346199024Z,3,3,rate_limited,0,0,0,R1,,q02,0,0,2,2,0,would wait 24.245s (minute limit),2,0.3538
+overload-R1-071621-0028,overload,stand-in,2026-11-12T07:18:37.431028364Z,14292,14292,ok,0,1453,41,R1,,q05,13975,313,1,0,0,verified (0 uncited sentences dropped),1,0.1543
+overload-R1-071621-0033,overload,stand-in,2026-11-12T07:18:53.118548569Z,3,3,rate_limited,0,0,0,R1,,q07,0,0,2,2,0,would wait 21.925s (minute limit),1,0.3828
+overload-R1-071621-0034,overload,stand-in,2026-11-12T07:18:56.280983337Z,7,7,rate_limited,0,0,0,R1,,q20,0,0,1,2,0,would wait 18.564s (minute limit),2,0.2170
+overload-R1-071621-0030,overload,stand-in,2026-11-12T07:18:44.027925126Z,12690,12690,ok,0,606,41,R1,,q03,12229,456,1,1,0,verified (0 uncited sentences dropped),2,0.2659
+overload-R1-071621-0032,overload,stand-in,2026-11-12T07:18:52.339202822Z,14023,14023,ok,0,685,42,R1,,q06,13556,463,1,1,0,verified (0 uncited sentences dropped),0,0.3227
+overload-R1-071621-0035,overload,stand-in,2026-11-12T07:19:06.377802089Z,4954,4954,ok,0,1176,45,R1,,q01,4461,490,0,0,0,verified (0 uncited sentences dropped),0,0.4977
+overload-R1-071621-0038,overload,stand-in,2026-11-12T07:19:12.619720186Z,5,5,rate_limited,0,0,0,R1,,q12,0,0,2,2,0,would wait 21.247s (minute limit),2,0.5214
+overload-R1-071621-0036,overload,stand-in,2026-11-12T07:19:07.356443362Z,9135,9135,ok,0,671,46,R1,,q14,8851,279,1,1,0,verified (0 uncited sentences dropped),2,0.3000
+overload-R1-071621-0040,overload,stand-in,2026-11-12T07:19:17.017512742Z,3,3,ok,0,0,0,R1,,q10,0,0,0,0,0,top retrieval score 0.102 below threshold 0.130,2,0.1020
+overload-R1-071621-0041,overload,stand-in,2026-11-12T07:19:18.575391805Z,2,2,rate_limited,0,0,0,R1,,q13,0,0,2,2,0,would wait 20.371s (minute limit),0,0.5506
+overload-R1-071621-0037,overload,stand-in,2026-11-12T07:19:11.751554308Z,11090,11090,ok,0,641,45,R1,,q15,10597,488,1,1,0,verified (0 uncited sentences dropped),2,0.3190
+overload-R1-071621-0039,overload,stand-in,2026-11-12T07:19:16.420191919Z,14712,14712,ok,0,648,48,R1,,q16,14299,408,1,1,0,verified (0 uncited sentences dropped),2,0.3150
+overload-R1-071621-0042,overload,stand-in,2026-11-12T07:19:22.348320857Z,9906,9906,ok,0,656,47,R1,,q19,9524,377,2,1,0,verified (0 uncited sentences dropped),2,0.3674
+overload-R1-071621-0043,overload,stand-in,2026-11-12T07:19:31.873172059Z,12473,12473,ok,0,1423,41,R1,,q09,11942,525,1,0,0,verified (0 uncited sentences dropped),1,0.2895
+overload-R1-071621-0046,overload,stand-in,2026-11-12T07:19:47.840207892Z,5,5,rate_limited,0,0,0,R1,,q18,0,0,2,2,0,would wait 23.154s (minute limit),2,0.1464
+overload-R1-071621-0044,overload,stand-in,2026-11-12T07:19:43.813371357Z,9879,9879,ok,0,1334,46,R1,,q08,9361,509,1,0,0,verified (0 uncited sentences dropped),2,0.3684
+overload-R1-071621-0045,overload,stand-in,2026-11-12T07:19:46.7620464Z,15175,15175,ok,0,518,44,R1,,q11,14798,369,1,1,0,verified (0 uncited sentences dropped),2,0.3281
+overload-R1-071621-0047,overload,stand-in,2026-11-12T07:20:06.869085531Z,2013,2013,ok,0,1430,45,R1,,q04,1589,414,0,0,0,verified (0 uncited sentences dropped),0,0.2680
+overload-naive-R1-071621-0000,overload-naive,stand-in,2026-11-12T07:16:25.505970545Z,1,1,ok,0,0,0,R1,,q10,0,0,0,0,0,top retrieval score 0.102 below threshold 0.130,0,0.1020
+overload-naive-R1-071621-0001,overload-naive,stand-in,2026-11-12T07:16:26.216193456Z,521,521,ok,0,1282,42,R1,,q13,0,517,0,0,0,verified (0 uncited sentences dropped),2,0.5506
+overload-naive-R1-071621-0002,overload-naive,stand-in,2026-11-12T07:16:31.843747719Z,532,532,ok,0,1461,47,R1,,q19,0,530,0,0,0,verified (0 uncited sentences dropped),1,0.3674
+overload-naive-R1-071621-0003,overload-naive,stand-in,2026-11-12T07:16:34.734049274Z,516,516,ok,0,1423,41,R1,,q09,0,512,0,0,0,verified (0 uncited sentences dropped),2,0.2895
+overload-naive-R1-071621-0004,overload-naive,stand-in,2026-11-12T07:16:48.917121926Z,416,416,ok,0,1334,46,R1,,q08,0,411,0,0,0,verified (0 uncited sentences dropped),2,0.3684
+overload-naive-R1-071621-0005,overload-naive,stand-in,2026-11-12T07:16:55.315155314Z,435,435,ok,0,1239,44,R1,,q11,0,432,0,0,0,verified (0 uncited sentences dropped),0,0.3281
+overload-naive-R1-071621-0006,overload-naive,stand-in,2026-11-12T07:17:02.489023719Z,516,516,ok,0,1394,44,R1,,q18,0,511,0,0,0,verified (0 uncited sentences dropped),2,0.1464
+overload-naive-R1-071621-0007,overload-naive,stand-in,2026-11-12T07:17:07.846695674Z,448,448,ok,0,1430,45,R1,,q04,0,444,0,0,0,verified (0 uncited sentences dropped),2,0.2680
+overload-naive-R1-071621-0008,overload-naive,stand-in,2026-11-12T07:17:11.279969727Z,503,503,ok,0,1453,41,R1,,q05,0,501,0,0,0,verified (0 uncited sentences dropped),0,0.1543
+overload-naive-R1-071621-0009,overload-naive,stand-in,2026-11-12T07:17:14.28908667Z,447,447,ok,0,1471,43,R1,,q17,0,443,0,0,0,verified (0 uncited sentences dropped),2,0.5734
+overload-naive-R1-071621-0010,overload-naive,stand-in,2026-11-12T07:17:14.856717134Z,2762,2762,ok,0,1323,41,R1,,q03,2383,373,0,0,0,verified (0 uncited sentences dropped),0,0.2659
+overload-naive-R1-071621-0011,overload-naive,stand-in,2026-11-12T07:17:15.220315439Z,13588,13588,ok,0,1432,46,R1,,q02,13069,516,1,0,0,verified (0 uncited sentences dropped),0,0.3538
+overload-naive-R1-071621-0015,overload-naive,stand-in,2026-11-12T07:17:36.416965679Z,2,2,rate_limited,0,0,0,R1,,q01,0,0,3,2,0,would wait 33.406s (minute limit),1,0.4977
+overload-naive-R1-071621-0016,overload-naive,stand-in,2026-11-12T07:17:38.193782051Z,3,3,rate_limited,0,0,0,R1,,q14,0,0,3,2,0,would wait 32.212s (minute limit),2,0.3000
+overload-naive-R1-071621-0014,overload-naive,stand-in,2026-11-12T07:17:34.690472827Z,5806,5806,ok,0,1031,42,R1,,q20,5379,424,1,0,0,verified (0 uncited sentences dropped),0,0.2170
+overload-naive-R1-071621-0012,overload-naive,stand-in,2026-11-12T07:17:24.123346938Z,,20001,timeout,1,0,0,R1,,q06,18674,320,1,1,0,context deadline exceeded,2,0.3227
+overload-naive-R1-071621-0017,overload-naive,stand-in,2026-11-12T07:17:40.06980253Z,4427,4427,ok,0,641,45,R1,,q15,4052,372,2,1,0,verified (0 uncited sentences dropped),0,0.3190
+overload-naive-R1-071621-0013,overload-naive,stand-in,2026-11-12T07:17:33.958706234Z,19284,19284,ok,1,1383,40,R1,,q07,17770,507,1,0,1,verified (0 uncited sentences dropped),2,0.3828
+overload-naive-R1-071621-0020,overload-naive,stand-in,2026-11-12T07:18:06.238892932Z,4,4,ok,0,0,0,R1,,q10,0,0,0,0,0,top retrieval score 0.102 below threshold 0.130,2,0.1020
+overload-naive-R1-071621-0018,overload-naive,stand-in,2026-11-12T07:17:51.947794034Z,14690,14690,ok,0,1301,38,R1,,q12,14168,516,1,0,0,verified (0 uncited sentences dropped),2,0.5214
+overload-naive-R1-071621-0022,overload-naive,stand-in,2026-11-12T07:18:13.042925379Z,3,3,rate_limited,0,0,0,R1,,q19,0,0,2,2,0,would wait 24.476s (minute limit),2,0.3674
+overload-naive-R1-071621-0019,overload-naive,stand-in,2026-11-12T07:18:06.115749216Z,8391,8391,ok,0,1437,48,R1,,q16,7868,517,1,0,0,verified (0 uncited sentences dropped),0,0.3150
+overload-naive-R1-071621-0024,overload-naive,stand-in,2026-11-12T07:18:18.058057676Z,4,4,rate_limited,0,0,0,R1,,q08,0,0,2,2,0,would wait 24.525s (minute limit),2,0.3684
+overload-naive-R1-071621-0025,overload-naive,stand-in,2026-11-12T07:18:22.578173561Z,3,3,rate_limited,0,0,0,R1,,q11,0,0,2,2,0,would wait 19.135s (minute limit),1,0.3281
+overload-naive-R1-071621-0026,overload-naive,stand-in,2026-11-12T07:18:23.222335696Z,4,4,rate_limited,0,0,0,R1,,q18,0,0,2,2,0,would wait 19.541s (minute limit),2,0.1464
+overload-naive-R1-071621-0021,overload-naive,stand-in,2026-11-12T07:18:12.816587851Z,11655,11655,ok,0,1282,42,R1,,q13,11146,505,1,0,0,verified (0 uncited sentences dropped),2,0.5506
+overload-naive-R1-071621-0023,overload-naive,stand-in,2026-11-12T07:18:16.221811476Z,17588,17588,ok,0,649,41,R1,,q09,17110,474,1,1,0,verified (0 uncited sentences dropped),2,0.2895
+overload-naive-R1-071621-0029,overload-naive,stand-in,2026-11-12T07:18:39.352757315Z,2,2,rate_limited,0,0,0,R1,,q17,0,0,2,2,0,would wait 25.334s (minute limit),0,0.5734
+overload-naive-R1-071621-0027,overload-naive,stand-in,2026-11-12T07:18:35.927042812Z,4754,4754,ok,0,1430,45,R1,,q04,4248,500,0,0,0,verified (0 uncited sentences dropped),2,0.2680
+overload-naive-R1-071621-0031,overload-naive,stand-in,2026-11-12T07:18:45.352335024Z,3,3,rate_limited,0,0,0,R1,,q02,0,0,2,2,0,would wait 24.246s (minute limit),2,0.3538
+overload-naive-R1-071621-0028,overload-naive,stand-in,2026-11-12T07:18:37.437164364Z,14291,14291,ok,0,1453,41,R1,,q05,13974,313,1,0,0,verified (0 uncited sentences dropped),2,0.1543
+overload-naive-R1-071621-0033,overload-naive,stand-in,2026-11-12T07:18:53.124684569Z,5,5,rate_limited,0,0,0,R1,,q07,0,0,2,2,0,would wait 21.925s (minute limit),2,0.3828
+overload-naive-R1-071621-0034,overload-naive,stand-in,2026-11-12T07:18:56.287119337Z,2,2,rate_limited,0,0,0,R1,,q20,0,0,1,2,0,would wait 18.57s (minute limit),0,0.2170
+overload-naive-R1-071621-0030,overload-naive,stand-in,2026-11-12T07:18:44.034061126Z,12690,12690,ok,0,606,41,R1,,q03,12229,456,1,1,0,verified (0 uncited sentences dropped),2,0.2659
+overload-naive-R1-071621-0032,overload-naive,stand-in,2026-11-12T07:18:52.345338822Z,14023,14023,ok,0,685,42,R1,,q06,13558,461,1,1,0,verified (0 uncited sentences dropped),0,0.3227
+overload-naive-R1-071621-0035,overload-naive,stand-in,2026-11-12T07:19:06.383938089Z,4959,4959,ok,0,1176,45,R1,,q01,4462,493,0,0,0,verified (0 uncited sentences dropped),1,0.4977
+overload-naive-R1-071621-0038,overload-naive,stand-in,2026-11-12T07:19:12.625856186Z,3,3,rate_limited,0,0,0,R1,,q12,0,0,2,2,0,would wait 21.251s (minute limit),2,0.5214
+overload-naive-R1-071621-0036,overload-naive,stand-in,2026-11-12T07:19:07.362579362Z,9137,9137,ok,0,671,46,R1,,q14,8853,279,1,1,0,verified (0 uncited sentences dropped),2,0.3000
+overload-naive-R1-071621-0040,overload-naive,stand-in,2026-11-12T07:19:17.023648742Z,4,4,ok,0,0,0,R1,,q10,0,0,0,0,0,top retrieval score 0.102 below threshold 0.130,2,0.1020
+overload-naive-R1-071621-0041,overload-naive,stand-in,2026-11-12T07:19:18.581527805Z,3,3,rate_limited,0,0,0,R1,,q13,0,0,2,2,0,would wait 20.373s (minute limit),2,0.5506
+overload-naive-R1-071621-0037,overload-naive,stand-in,2026-11-12T07:19:11.757690308Z,11092,11092,ok,0,641,45,R1,,q15,10598,491,1,1,0,verified (0 uncited sentences dropped),0,0.3190
+overload-naive-R1-071621-0039,overload-naive,stand-in,2026-11-12T07:19:16.426327919Z,14714,14714,ok,0,648,48,R1,,q16,14301,408,1,1,0,verified (0 uncited sentences dropped),2,0.3150
+overload-naive-R1-071621-0042,overload-naive,stand-in,2026-11-12T07:19:22.354456857Z,9906,9906,ok,0,656,47,R1,,q19,9525,377,2,1,0,verified (0 uncited sentences dropped),2,0.3674
+overload-naive-R1-071621-0043,overload-naive,stand-in,2026-11-12T07:19:31.879308059Z,12473,12473,ok,0,1423,41,R1,,q09,11941,527,1,0,0,verified (0 uncited sentences dropped),2,0.2895
+overload-naive-R1-071621-0046,overload-naive,stand-in,2026-11-12T07:19:47.846343892Z,5,5,rate_limited,0,0,0,R1,,q18,0,0,2,2,0,would wait 23.155s (minute limit),2,0.1464
+overload-naive-R1-071621-0044,overload-naive,stand-in,2026-11-12T07:19:43.819507357Z,9879,9879,ok,0,1334,46,R1,,q08,9364,510,1,0,0,verified (0 uncited sentences dropped),1,0.3684
+overload-naive-R1-071621-0045,overload-naive,stand-in,2026-11-12T07:19:46.7681824Z,15170,15170,ok,0,518,44,R1,,q11,14793,366,1,1,0,verified (0 uncited sentences dropped),1,0.3281
+overload-naive-R1-071621-0047,overload-naive,stand-in,2026-11-12T07:20:06.875221531Z,2011,2011,ok,0,1430,45,R1,,q04,1594,412,0,0,0,verified (0 uncited sentences dropped),0,0.2680
+halved-R1-071621-0000,halved,stand-in,2026-11-12T07:16:38.72431718Z,4,4,ok,0,0,0,R1,,q10,0,0,0,0,0,top retrieval score 0.102 below threshold 0.130,2,0.1020
+halved-R1-071621-0001,halved,stand-in,2026-11-12T07:16:41.565208826Z,525,525,ok,0,1282,42,R1,,q13,0,519,0,0,0,verified (0 uncited sentences dropped),2,0.5506
+halved-R1-071621-0002,halved,stand-in,2026-11-12T07:17:04.075425878Z,535,535,ok,0,1461,47,R1,,q19,0,531,0,0,0,verified (0 uncited sentences dropped),1,0.3674
+halved-R1-071621-0003,halved,stand-in,2026-11-12T07:17:15.636632101Z,517,517,ok,0,1423,41,R1,,q09,0,512,0,0,0,verified (0 uncited sentences dropped),1,0.2895
+halved-R1-071621-0004,halved,stand-in,2026-11-12T07:18:12.36892271Z,415,415,ok,0,1334,46,R1,,q08,0,409,0,0,0,verified (0 uncited sentences dropped),2,0.3684
+halved-R1-071621-0005,halved,stand-in,2026-11-12T07:18:37.961056264Z,437,437,ok,0,1239,44,R1,,q11,0,433,0,0,0,verified (0 uncited sentences dropped),0,0.3281
+halved-R1-071621-0006,halved,stand-in,2026-11-12T07:19:06.656529886Z,521,521,ok,0,1394,44,R1,,q18,0,513,0,0,0,verified (0 uncited sentences dropped),2,0.1464
+halved-R1-071621-0007,halved,stand-in,2026-11-12T07:19:28.087217706Z,449,449,ok,0,1430,45,R1,,q04,0,444,0,0,0,verified (0 uncited sentences dropped),0,0.2680
+halved-R1-071621-0008,halved,stand-in,2026-11-12T07:19:41.820313919Z,695,695,ok,0,1453,41,R1,,q05,0,517,0,0,0,verified (0 uncited sentences dropped),112,0.1543
+halved-R1-071621-0009,halved,stand-in,2026-11-12T07:19:53.856781694Z,450,450,ok,0,1471,43,R1,,q17,0,445,0,0,0,verified (0 uncited sentences dropped),2,0.5734
+halved-R1-071621-0010,halved,stand-in,2026-11-12T07:19:56.127303551Z,377,377,ok,0,1323,41,R1,,q03,0,373,0,0,0,verified (0 uncited sentences dropped),1,0.2659
+halved-R1-071621-0011,halved,stand-in,2026-11-12T07:19:57.581696771Z,9530,9530,rate_limited,0,0,0,R1,,q02,9393,134,0,0,1,"rate limited (retry after 11s): {""error"":{""code"":""rate_limit_exceeded"",""message"":""Rate limit reached for model `openai/gpt-oss-20b` on tokens per minute (TPM): Limit 4000, Requested 1432. Please try again in 10.441s."",""type"":""tokens""}}
+",0,0.3538
+halved-naive-R1-071621-0000,halved-naive,stand-in,2026-11-12T07:16:38.73693318Z,4,4,ok,0,0,0,R1,,q10,0,0,0,0,0,top retrieval score 0.102 below threshold 0.130,2,0.1020
+halved-naive-R1-071621-0001,halved-naive,stand-in,2026-11-12T07:16:41.577824826Z,523,523,ok,0,1282,42,R1,,q13,0,519,0,0,0,verified (0 uncited sentences dropped),2,0.5506
+halved-naive-R1-071621-0002,halved-naive,stand-in,2026-11-12T07:17:04.088041878Z,535,535,ok,0,1461,47,R1,,q19,0,533,0,0,0,verified (0 uncited sentences dropped),0,0.3674
+halved-naive-R1-071621-0003,halved-naive,stand-in,2026-11-12T07:17:15.649248101Z,516,516,ok,0,1423,41,R1,,q09,0,512,0,0,0,verified (0 uncited sentences dropped),1,0.2895
+halved-naive-R1-071621-0004,halved-naive,stand-in,2026-11-12T07:18:12.38153871Z,415,415,ok,0,1334,46,R1,,q08,0,409,0,0,0,verified (0 uncited sentences dropped),1,0.3684
+halved-naive-R1-071621-0005,halved-naive,stand-in,2026-11-12T07:18:37.973672264Z,437,437,ok,0,1239,44,R1,,q11,0,433,0,0,0,verified (0 uncited sentences dropped),0,0.3281
+halved-naive-R1-071621-0006,halved-naive,stand-in,2026-11-12T07:19:06.669145886Z,517,517,ok,0,1394,44,R1,,q18,0,513,0,0,0,verified (0 uncited sentences dropped),2,0.1464
+halved-naive-R1-071621-0007,halved-naive,stand-in,2026-11-12T07:19:28.099833706Z,448,448,ok,0,1430,45,R1,,q04,0,442,0,0,0,verified (0 uncited sentences dropped),2,0.2680
+halved-naive-R1-071621-0008,halved-naive,stand-in,2026-11-12T07:19:41.832929919Z,683,683,ok,0,1453,41,R1,,q05,0,516,0,0,0,verified (0 uncited sentences dropped),119,0.1543
+halved-naive-R1-071621-0009,halved-naive,stand-in,2026-11-12T07:19:53.869397694Z,448,448,ok,0,1471,43,R1,,q17,0,445,0,0,0,verified (0 uncited sentences dropped),0,0.5734
+halved-naive-R1-071621-0010,halved-naive,stand-in,2026-11-12T07:19:56.139919551Z,378,378,ok,0,1323,41,R1,,q03,0,373,0,0,0,verified (0 uncited sentences dropped),2,0.2659
+halved-naive-R1-071621-0011,halved-naive,stand-in,2026-11-12T07:19:57.594312771Z,11799,11799,rate_limited,2,0,0,R1,,q02,9392,397,0,0,3,"rate limited (retry after 9s): {""error"":{""code"":""rate_limit_exceeded"",""message"":""Rate limit reached for model `openai/gpt-oss-20b` on tokens per minute (TPM): Limit 4000, Requested 1432. Please try again in 8.166s."",""type"":""tokens""}}
+",0,0.3538
